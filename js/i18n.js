@@ -119,6 +119,7 @@ window.I18N = {
       'about.factsLabel': 'Details',
       'about.born': 'Born 2004, Shijiazhuang, Hebei',
       'about.edu': 'BFA, Sci-Tech Art Studio, School of Experimental Art, Central Academy of Fine Arts',
+      'about.edu2': 'MA Interaction Design and Electronic Arts, University of Sydney (2026–2028)',
       'about.based': 'Based in Sydney',
 
       'about.portraitAlt': 'Portrait of Zicen Yin',
@@ -138,6 +139,7 @@ window.I18N = {
       'about.factsLabel': '基本信息',
       'about.born': '2004 年出生于河北石家庄',
       'about.edu': '本科毕业于中央美术学院实验艺术学院科技艺术工作室',
+      'about.edu2': '悉尼大学交互设计与电子艺术硕士在读（2026–2028）',
       'about.based': '现居悉尼',
 
       'about.portraitAlt': '尹紫涔肖像',

@@ -163,8 +163,8 @@ window.PROJECTS = [
   en: {
     name: 'EXSTASIS',
     type: 'Interactive Installation · Bio-art · Art Therapy',
-    tag: 'Cultivate the bacteria on your hands, and a machine grows you a guardian spirit of your own.',
-    thesis: 'Shamanism\'s oldest idea — that we are decentralized, kin to the living world — <b>rebuilt as a machine you can touch.</b>',
+    tag: 'This project draws on artificial intelligence to integrate the shamanic principles of decentralization and coexistence with nature into everyday life.',
+    thesis: 'In contemporary society, the excessive exploitation of nature through technology and the persistence of centralized political power have long been <b>ongoing issues.</b>',
     role: 'Concept, interaction & fabrication — solo',
     disc: 'Installation · Bio-art · Art therapy',
     tools: 'Arduino · Python · TouchDesigner · Machine vision',
@@ -208,7 +208,7 @@ window.PROJECTS = [
       ],
       stack: ['Arduino', 'Python · serial/UDP', 'TouchDesigner', 'Machine vision', 'Microbial culture']
     },
-    experience: 'A TV-crowned shrine where your cultured microbiome is read and projected back as a guardian spirit. The invisible, made personal — and a little uncanny.',
+    experience: 'Shamanic traditions have appeared at various stages in the formation of nearly all civilizations. This universality points to humanity\'s shared capacity to find, through ecstatic communion with nature, a personalized path toward harmony with both the environment and the social world.',
     outcome: {
       tiles: [
         ['3', 'systems fused', 'physical computing · ML vision · real-time render'],
@@ -222,8 +222,8 @@ window.PROJECTS = [
   zh: {
     name: 'EXSTASIS 出神',
     type: '交互装置 · 生物艺术 · 艺术治疗',
-    tag: '培养你手上的细菌，机器为你长出一个专属的守护灵。',
-    thesis: '萨满最古老的那个想法 —— 我们是去中心的，与万物同源 —— <b>被重建成一台你可以触摸的机器。</b>',
+    tag: '这个项目借助人工智能，把萨满的去中心化与万物共生的观念，整合进日常生活。',
+    thesis: '在当代社会，技术对自然的过度索取，与政治权力的持续集中，长久以来<b>都是悬而未决的问题。</b>',
     role: '概念、交互与制作 —— 独立完成',
     disc: '装置 · 生物艺术 · 艺术治疗',
     tools: 'Arduino · Python · TouchDesigner · 机器视觉',
@@ -267,7 +267,7 @@ window.PROJECTS = [
       ],
       stack: ['Arduino', 'Python · 串口/UDP', 'TouchDesigner', '机器视觉', '微生物培养']
     },
-    experience: '一座以显像管为冠的神龛，你培养出的微生物群在这里被读取，再作为守护灵投射回来。看不见的东西被变得私人 —— 并且有一点点不安。',
+    experience: '萨满传统出现在几乎所有文明形成的各个阶段。这种普遍性指向人类共有的一种能力：通过与自然的出神式交融，找到一条与环境和社会同时达成和谐的、属于个人的路径。',
     outcome: {
       tiles: [
         ['3', '套系统融合', '物理计算 · 机器视觉 · 实时渲染'],
@@ -286,8 +286,8 @@ window.PROJECTS = [
   en: {
     name: 'PainShift',
     type: 'VR · Biofeedback · Art Therapy · Service Design',
-    tag: 'A VR meditation that turns your breath into art — and your pain into something you can manage without pills.',
-    thesis: 'Reframe pain as a manageable experience — <b>a patient who reaches for the headset, not the bottle.</b>',
+    tag: 'A VR-based meditation system for pain management aimed at reducing reliance on painkillers.',
+    thesis: 'By reframing pain as <b>a manageable cognitive and sensory experience</b>, the system encourages non-drug coping strategies and supports safer, long-term pain regulation.',
     role: 'Concept, interaction, hardware, Unreal Engine build',
     disc: 'VR · Biofeedback · Service design',
     tools: 'Unreal Engine · Arduino · Pulse & stretch sensors · TouchDesigner',
@@ -330,7 +330,7 @@ window.PROJECTS = [
       ],
       stack: ['Unreal Engine', 'Arduino', 'Pulse + stretch sensors', 'TouchDesigner']
     },
-    experience: 'The real biofeedback idea, playable. <b>Breathe with the pacer</b> and open the session up — as your breathing deepens the mandala grows richer, your modeled heart rate settles, and reliance on medication drops.',
+    experience: 'Through immersive environments, guided breathing, and gentle interaction, it helps users <b>shift attention and perception of pain</b> rather than suppress it with medication. Below, that logic is playable — breathe with the ring and the session opens up.',
     playground: true,
     outcome: {
       tiles: [
@@ -349,8 +349,8 @@ window.PROJECTS = [
   zh: {
     name: 'PainShift 疼痛转移',
     type: 'VR · 生物反馈 · 艺术治疗 · 服务设计',
-    tag: '一个 VR 冥想系统，把你的呼吸变成图案 —— 把疼痛变成一件不靠药也能管理的事。',
-    thesis: '把疼痛重新框定为可管理的体验 —— <b>一个愿意伸手去拿头显、而不是拿药瓶的病人。</b>',
+    tag: '一套基于 VR 的疼痛管理冥想系统，目标是降低对止痛药的依赖。',
+    thesis: '通过把疼痛重新框定为<b>一种可管理的认知与感官体验</b>，系统鼓励非药物的应对策略，支持更安全的长期疼痛调节。',
     role: '概念、交互、硬件、Unreal Engine 实现',
     disc: 'VR · 生物反馈 · 服务设计',
     tools: 'Unreal Engine · Arduino · 脉搏与拉伸传感器 · TouchDesigner',
@@ -393,7 +393,7 @@ window.PROJECTS = [
       ],
       stack: ['Unreal Engine', 'Arduino', '脉搏 + 拉伸传感器', 'TouchDesigner']
     },
-    experience: '把真正的生物反馈机制做成可玩的。<b>跟着节拍器呼吸</b>，把这一次会话打开 —— 呼吸越深，曼陀罗越丰富，模拟心率越平稳，对药物的依赖越低。',
+    experience: '通过沉浸式环境、引导呼吸与温和的交互，它帮助使用者<b>转移对疼痛的注意与感知</b>，而不是用药物去压制它。下面这个模块就是这套逻辑 —— 跟着光环呼吸，会话会逐渐打开。',
     playground: true,
     outcome: {
       tiles: [
@@ -417,8 +417,8 @@ window.PROJECTS = [
   en: {
     name: 'Reground',
     type: 'UX · Service · Product · Art Therapy',
-    tag: 'An app and a plush companion robot that guide people out of dissociative episodes — and keep them coming back.',
-    thesis: 'Make the therapeutic tool feel like a <b>companion, not a medical device</b> — the whole value depends on people using it.',
+    tag: 'Through an app paired with an adorable companion robot, I aim to guide users through grounding exercises and help them disengage from dissociation.',
+    thesis: 'Though therapists often teach grounding techniques, <b>many patients struggle to recall them during dissociative episodes.</b>',
     role: 'UX, service design, 3D, hardware concept',
     disc: 'UX · Service · Product design',
     tools: 'Figma · 3D modelling · Companion robot · EMDR',
@@ -465,7 +465,7 @@ window.PROJECTS = [
       ],
       stack: ['Figma', '3D modelling', 'Companion robot', 'EMDR protocol', 'Bluetooth']
     },
-    experience: 'The full product surface — a warm, low-clinical system spanning grounding practice, records, the companion dashboard, peer community and a clinician view. Soft enough that people are <b>willing to use it in public.</b>',
+    experience: 'In everyday life, people experience moments of unreality to varying degrees. When these episodes become frequent and persistent, they can lead to memory confusion and even moments of <b>not knowing how one arrived at a certain place</b>, which may result in traffic accidents and other danger.',
     outcome: {
       tiles: [
         ['30 → 5 min', 'recovery time', 'reported by a long-term user after ~1 month'],
@@ -479,8 +479,8 @@ window.PROJECTS = [
   zh: {
     name: 'Reground 复地',
     type: 'UX · 服务 · 产品 · 艺术治疗',
-    tag: '一个 App 加一只毛绒陪伴机器人，引导人从解离状态中回来 —— 并且让他们愿意再打开它。',
-    thesis: '让治疗工具像一个<b>同伴，而不是一台医疗设备</b> —— 它的全部价值取决于人会不会用它。',
+    tag: '通过一个应用配合一只可爱的陪伴机器人，引导使用者完成着陆练习，帮助他们从解离中脱离。',
+    thesis: '尽管治疗师常常教授着陆技巧，<b>许多病人在解离发作当中根本回想不起来。</b>',
     role: 'UX、服务设计、3D、硬件概念',
     disc: 'UX · 服务 · 产品设计',
     tools: 'Figma · 3D 建模 · 陪伴机器人 · EMDR',
@@ -527,7 +527,7 @@ window.PROJECTS = [
       ],
       stack: ['Figma', '3D 建模', '陪伴机器人', 'EMDR 方案', '蓝牙']
     },
-    experience: '完整的产品面 —— 一套温暖、去临床感的系统，涵盖着陆练习、记录、陪伴物仪表盘、同伴社区和医生视图。柔软到<b>人愿意在公共场合拿出来用</b>。',
+    experience: '在日常生活里，人们都会不同程度地经历不真实感。当这种发作变得频繁而持续，就会导致记忆混乱，甚至出现<b>不知道自己是怎么到达某个地方的</b>时刻，进而可能引发交通事故等危险。',
     outcome: {
       tiles: [
         ['30 → 5 分钟', '恢复时长', '一位长期用户使用约一个月后的反馈'],
@@ -546,8 +546,8 @@ window.PROJECTS = [
   en: {
     name: 'EmpaLens',
     type: 'Product · Service · UX · Wearables',
-    tag: 'Smart glasses and a badge that translate real-time emotion — built for the partners of autistic people.',
-    thesis: 'Design for <b>the partner — the person nobody builds for.</b> It is both the ethical and the market opportunity.',
+    tag: 'An interactive system designed to enhance empathy and communication in intimate relationships involving autistic individuals.',
+    thesis: 'These partners have been likened to <b>Cassandra from Greek mythology — able to foresee the future but not believed.</b>',
     role: 'Product design, UX, ML integration, industrial design',
     disc: 'Product · Service · Wearables',
     tools: 'CNN · FER-2013 · OpenCV / Keras · AR · Figma',
@@ -592,7 +592,7 @@ window.PROJECTS = [
       ],
       stack: ['CNN · FER-2013', 'OpenCV / Keras', 'AR display', 'Wearables', 'Figma']
     },
-    experience: 'The system in the hand — the companion app\'s real-time emotion overview beside the wearer\'s onboarding. <b>Read, broadcast, reflect:</b> three surfaces for a state that used to go unspoken.',
+    experience: 'Using smart glasses and wearable badges, it translates and visualizes real-time emotional states, logs interactions, and provides AI-guided exercises. It supports mutual understanding, emotional awareness, and <b>proactive conflict prevention</b> through playful, personalized training.',
     outcome: {
       tiles: [
         ['~0.05s', 'recognition refresh', 'working FER-2013 CNN, real time'],
@@ -606,8 +606,8 @@ window.PROJECTS = [
   zh: {
     name: 'EmpaLens 共感之镜',
     type: '产品 · 服务 · UX · 可穿戴',
-    tag: '一副智能眼镜加一枚徽章，实时翻译情绪 —— 为自闭症人士的伴侣而做。',
-    thesis: '为<b>伴侣设计 —— 那个没有人为其设计的人。</b>这既是伦理上的选择，也是市场上的机会。',
+    tag: '一套交互系统，用于增进涉及自闭症人士的亲密关系中的共情与沟通。',
+    thesis: '这些伴侣常被比作<b>希腊神话中的卡桑德拉 —— 能预见未来，却没有人相信她。</b>',
     role: '产品设计、UX、机器学习集成、工业设计',
     disc: '产品 · 服务 · 可穿戴',
     tools: 'CNN · FER-2013 · OpenCV / Keras · AR · Figma',
@@ -652,7 +652,7 @@ window.PROJECTS = [
       ],
       stack: ['CNN · FER-2013', 'OpenCV / Keras', 'AR 显示', '可穿戴', 'Figma']
     },
-    experience: '拿在手里的整套系统 —— 配套 App 的实时情绪总览，旁边是佩戴者的引导流程。<b>读取、广播、回看：</b>为一种过去从不被说出口的状态，做了三个界面。',
+    experience: '借助智能眼镜与可穿戴徽章，它实时翻译并可视化情绪状态、记录互动，并提供由 AI 引导的练习。通过带有游戏性的个性化训练，支持相互理解、情绪觉察，以及<b>主动的冲突预防</b>。'
     outcome: {
       tiles: [
         ['约 0.05 秒', '识别刷新', '真正跑起来的 FER-2013 CNN，实时'],
@@ -671,8 +671,8 @@ window.PROJECTS = [
   en: {
     name: 'Through Their Eyes',
     type: 'Interactive Installation · Critical Design',
-    tag: 'You walk in curious. Hidden cameras film you. Then the TV and the printer start slandering you — live.',
-    thesis: 'You can\'t argue someone into empathy. <b>You can only put them in the frame.</b>',
+    tag: 'Many, as first-time observers, cannot truly empathize with the harm caused by being secretly recorded. I aimed to create an experience that makes these people feel this harm.',
+    thesis: 'This project does not aim to condemn the perpetrators. Instead, it uses artistic means to transform the often misunderstood experiences of women into <b>crisis scenarios that anyone could potentially encounter.</b>',
     role: 'Concept, research, installation design — solo',
     disc: 'Interactive installation · Critical design',
     tools: 'Pinhole cameras · AI generation · Real-time installation',
@@ -712,7 +712,7 @@ window.PROJECTS = [
       ],
       stack: ['Pinhole cameras', 'Real-time AI generation', 'Installation design']
     },
-    experience: 'You try to tear the newspapers and turn off the TV — but the printer keeps printing and the TV turns itself back on. <b>You can\'t stop being defamed</b> — and now you know how that feels.',
+    experience: 'A television initially plays footage of previous visitors, so new viewers are unaware of their own exposure. As viewers look curiously, a printer begins producing false tabloid sheets, and the TV shifts to show the audience themselves being secretly recorded and slandered. <b>Only then do viewers realize they have unknowingly become the targets.</b>',
     outcome: {
       tiles: [
         ['Structure', 'not blame', 'maps the system that produces the harm'],
@@ -726,8 +726,8 @@ window.PROJECTS = [
   zh: {
     name: '以他人之眼',
     type: '交互装置 · 批判性设计',
-    tag: '你好奇地走进去。隐藏的摄像头拍下你。然后电视和打印机开始实时诽谤你。',
-    thesis: '你没法把一个人说服到共情。<b>你只能把他放进画面里。</b>',
+    tag: '很多人作为初次的旁观者，无法真正共情被偷拍所造成的伤害。我想造出一种体验，让这些人感受到这种伤害。',
+    thesis: '这个项目并不意在谴责施害者。它用艺术的方式，把常被误解的女性经验，转化为<b>任何人都可能遭遇的危机情境。</b>',
     role: '概念、研究、装置设计 —— 独立完成',
     disc: '交互装置 · 批判性设计',
     tools: '针孔摄像头 · AI 生成 · 实时装置',
@@ -767,7 +767,7 @@ window.PROJECTS = [
       ],
       stack: ['针孔摄像头', '实时 AI 生成', '装置设计']
     },
-    experience: '你试着撕掉报纸、关掉电视 —— 但打印机继续打，电视自己又开了。<b>你没办法让诽谤停下来</b> —— 现在你知道那是什么感觉了。',
+    experience: '电视起初播放的是此前观众的影像，所以新来的人并不知道自己已经暴露。当观众好奇地四处查看时，打印机开始吐出伪造的小报，电视随即切换成观众自己被偷拍与诽谤的画面。<b>直到这时，观众才意识到自己已经在不知情中成为目标。</b>',
     outcome: {
       tiles: [
         ['结构', '而非归咎', '测绘出制造这种伤害的整个系统'],
@@ -790,11 +790,15 @@ window.CV = {
   awards: {
     zh: [
       ['2022–2023', '中央美术学院优秀学生奖学金'],
-      ['2026', '中央美术学院优秀毕业作品奖']
+      ['2026', '中央美术学院优秀毕业作品奖'],
+      ['2026', '第三届全国大学生美术作品展 终评入围'],
+      ['2026', 'CGTN 报道 —— 中央美术学院 2026 毕业展']
     ],
     en: [
       ['2022–2023', 'Outstanding Student Scholarship, CAFA'],
-      ['2026', 'Outstanding Graduation Work Award, CAFA']
+      ['2026', 'Outstanding Graduation Work Award, CAFA'],
+      ['2026', 'Shortlisted, final review — 3rd National Exhibition of Fine Arts for University Students'],
+      ['2026', 'Featured by CGTN — CAFA 2026 Graduation Exhibition']
     ]
   },
   shows: {
@@ -805,7 +809,7 @@ window.CV = {
       ['2024.04', '来美术馆跳舞 —— 美术馆场域内的身体与编舞', '中央美术学院美术馆，北京'],
       ['2024.08', '裁风寻迹 —— 中央美术学院剪纸习作展', '榆阳区文化艺术中心，榆林市'],
       ['2026.06', '', '郑州八翼美术馆，郑州'],
-      ['2026.07', '入口空间', '']
+      ['2026.07', '入口空间', '郑州']
     ],
     en: [
       ['2023.04', 'Ocean Sensor', 'CAFA Art Museum, Beijing'],
@@ -814,7 +818,7 @@ window.CV = {
       ['2024.04', 'Dance in the Museum — Body and Choreography in the Museum Field', 'CAFA Art Museum, Beijing'],
       ['2024.08', 'Tracing the Wind — CAFA Papercutting Studies', 'Yuyang District Culture and Art Centre, Yulin'],
       ['2026.06', '', 'Bayi Art Museum, Zhengzhou'],
-      ['2026.07', 'Entrance Space', '']
+      ['2026.07', 'Entrance Space', 'Zhengzhou']
     ]
   }
 };
