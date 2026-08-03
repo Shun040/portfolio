@@ -14,8 +14,9 @@ python3 -m http.server 5173
 
 打开 <http://localhost:5173>
 
-> 不要直接双击 HTML。`file://` 下 canvas 读取文字遮罩会被同源策略挡住，
-> 开场页的名字显影不出来。
+> 也可以直接双击 `index.html` 打开 —— 站点没有任何 fetch 请求，
+> canvas 只用 `fillText` 画遮罩（不会触发跨源污染），`file://` 下一样能跑。
+> 用本地服务器只是更贴近线上环境。
 
 ---
 

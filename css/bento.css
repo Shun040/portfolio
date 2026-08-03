@@ -33,7 +33,10 @@
 .aurora {
   position: fixed;
   inset: 0;
-  z-index: 0;
+  /* 沉到负层：这样不需要把所有内容提到 z-index:1，
+     也就不会去动任何元素的 position（那条规则曾经把开场页的
+     position:fixed 覆盖成 relative，整页塌成 0 高度） */
+  z-index: -1;
   pointer-events: none;
   overflow: hidden;
   /* 顶部略亮、底部压暗，避免整屏均匀发光显得廉价 */
@@ -89,8 +92,10 @@
   .aurora i { animation: none; }
 }
 
-/* 内容要浮在极光之上 */
-body > *:not(.aurora) { position: relative; z-index: 1; }
+/* 负层的极光要能被看见，body 就不能有不透明底色 —— 底色移到 html。
+   （html 有背景时，body 的背景不再向上传播到画布） */
+html { background: var(--bg); }
+body { background: transparent; }
 
 /* ---------- 2. 毛玻璃基元 ---------- */
 .glass {

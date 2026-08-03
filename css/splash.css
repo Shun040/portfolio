@@ -70,7 +70,7 @@
   display: inline-flex; align-items: center; gap: var(--s4);
   color: var(--fg);
 }
-.enter .ring {
+.enter .ering {
   position: relative;
   width: 62px; height: 62px;
   border: 1px solid var(--line-2);
@@ -78,7 +78,7 @@
   display: grid; place-items: center;
   transition: border-color .4s var(--ease), background .4s var(--ease);
 }
-.enter .ring::before {
+.enter .ering::before {
   content: "";
   position: absolute; inset: -1px;
   border: 1px solid var(--accent);
