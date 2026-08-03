@@ -68,8 +68,8 @@
         '<article class="box glass glass--hover box--hover" ' +
           'style="--c:' + s.c + ';--rw:' + s.rw + ';--mh:' + s.mh + 'px;' +
                  '--pa:' + p.a + '55;--pa-solid:' + p.a + '">' +
-          '<button class="pcard" type="button" data-case="' + p.key + '" ' +
-                  'aria-label="' + esc(d.name) + '">' +
+          '<a class="pcard" href="#' + p.key + '" data-case="' + p.key + '" ' +
+              'aria-label="' + esc(d.name) + '">' +
             '<span class="ph">' +
               '<img src="' + p.img + '" alt="" loading="lazy" decoding="async">' +
             '</span>' +
@@ -82,7 +82,7 @@
               '<p class="tag">' + esc(d.tag) + '</p>' +
               '<span class="open"><span data-i18n="work.open"></span><span>→</span></span>' +
             '</span>' +
-          '</button>' +
+          '</a>' +
         '</article>';
     }
     host.innerHTML = html;
@@ -545,7 +545,7 @@
     }
     if (!p) return;
     current = p;
-    ensure();
+    try { ensure(); } catch (err) { console.error('[case] 浮层创建失败', err); return; }
 
     overlay.style.setProperty('--pa', p.a + '55');
     overlay.style.setProperty('--pa-solid', p.a);
@@ -590,7 +590,16 @@
 
   document.addEventListener('click', function (e) {
     var b = e.target.closest && e.target.closest('[data-case]');
-    if (b) open(b.getAttribute('data-case'));
+    if (!b) return;
+    e.preventDefault();
+    open(b.getAttribute('data-case'));
+  });
+
+  // 兜底：地址栏的 # 变化也能开/关案例。委托失效、或别人直接发链接过来，都还能用。
+  window.addEventListener('hashchange', function () {
+    var k = location.hash.slice(1);
+    if (!k) { if (current) close(); return; }
+    if (!current || current.key !== k) open(k);
   });
 
   // 换语言：便当盒重渲染；案例开着的话原地重建，保持在同一个项目上
