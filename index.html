@@ -6,11 +6,11 @@
 <title>Zicen Yin — Interaction Design & New Media</title>
 <meta name="description" content="Interaction designer and creative technologist in Sydney.">
 <meta name="theme-color" content="#08090B">
-<link rel="preload" href="js/field.js?v=1785778396" as="script">
+<link rel="preload" href="js/field.js?v=1785778925" as="script">
 <link rel="prefetch" href="work.html">
-<link rel="stylesheet" href="css/site.css?v=1785778396">
-<link rel="stylesheet" href="css/bento.css?v=1785778396">
-<link rel="stylesheet" href="css/splash.css?v=1785778396">
+<link rel="stylesheet" href="css/site.css?v=1785778925">
+<link rel="stylesheet" href="css/bento.css?v=1785778925">
+<link rel="stylesheet" href="css/splash.css?v=1785778925">
 </head>
 <body>
 
@@ -33,13 +33,8 @@
               data-i18n-attr="aria-label:lang.label">中文</button>
     </div>
 
-    <!-- 中部：名字由 canvas 显影，这里只放一行说明 -->
-    <div class="sp-mid">
-      <div>
-        <p class="sp-line" data-i18n="splash.line">Six projects, each one holding on to something invisible.</p>
-        <p class="sp-hint mono" id="hint" data-i18n="splash.hint">Move your cursor to develop the image</p>
-      </div>
-    </div>
+    <!-- 中部留空：名字由 canvas 显影，不加任何说明文字 -->
+    <div class="sp-mid"></div>
 
     <!-- 底部：进入 / 元信息 -->
     <div class="sp-bot">
@@ -59,8 +54,8 @@
   </div>
 </div>
 
-<script src="js/i18n.js?v=1785778396"></script>
-<script src="js/field.js?v=1785778396"></script>
+<script src="js/i18n.js?v=1785778925"></script>
+<script src="js/field.js?v=1785778925"></script>
 <script>
 (function () {
   'use strict';
@@ -87,15 +82,6 @@
   Lang.onChange(function () { field.setText(Lang.t('splash.mask')); });
 
   document.getElementById('lang').addEventListener('click', function () { Lang.toggle(); });
-
-  // 触屏设备改用「按住拖动」的提示文案
-  var touch = matchMedia('(hover: none)').matches;
-  function hint() {
-    document.getElementById('hint').textContent =
-      Lang.t(touch ? 'splash.hint.touch' : 'splash.hint');
-  }
-  hint();
-  Lang.onChange(hint);
 
   // 进场转场：点阵坍缩 + 压黑，然后跳转
   var leaving = false;

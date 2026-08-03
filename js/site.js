@@ -200,6 +200,21 @@
     if (useRing() !== wasRing) location.reload();
   });
 
+  /* ---------- 骨架屏收尾 ----------
+     .ph 里的图在加载完之前是 opacity:0。case.js 只负责它自己生成的那些，
+     静态 HTML 里的（比如人物图）得在这里收尾，否则永远不显示。 */
+  Array.prototype.forEach.call(document.querySelectorAll('.ph > img, .ph > video'), function (m) {
+    var box = m.parentNode;
+    function done() { box.classList.add('ready'); }
+    if (m.tagName === 'IMG') {
+      if (m.complete && m.naturalWidth) return done();
+    } else if (m.readyState >= 2) {
+      return done();
+    }
+    m.addEventListener(m.tagName === 'IMG' ? 'load' : 'loadeddata', done);
+    m.addEventListener('error', done);   // 失败也要收尾，不然扫光一直闪
+  });
+
   /* ---------- Hero 背景 ---------- */
   var hf = document.getElementById('herofield');
   if (hf && window.Field) {
