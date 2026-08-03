@@ -1,0 +1,118 @@
+/* ==================================================================
+   splash.css — 开场页
+   ------------------------------------------------------------------
+   全屏点阵场，名字藏在噪点里，靠光标扫过显影。
+   页面上的 HTML 元素刻意压到最少：四角信息 + 一个进入按钮。
+   ================================================================== */
+
+.splash {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  /* 底色留给极光层，这里只做一层很淡的压暗 */
+  background: rgba(8,9,11,.35);
+}
+
+#field { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
+
+/* 中心的暗晕，把边缘噪点压下去，视线自然收到中间 */
+.splash::after {
+  content: "";
+  position: absolute; inset: 0; z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(58% 52% at 50% 46%, transparent 0%, rgba(8,9,11,.5) 74%, rgba(8,9,11,.88) 100%);
+}
+
+.splash-ui {
+  position: absolute; inset: 0; z-index: 3;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: clamp(20px, 4vw, 44px);
+  pointer-events: none;
+}
+.splash-ui a, .splash-ui button { pointer-events: auto; }
+
+.sp-top, .sp-bot {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: var(--s5);
+}
+.sp-bot { align-items: flex-end; }
+
+.sp-mark b { display: block; font-weight: 500; font-size: .95rem; letter-spacing: -.01em; }
+.sp-mark .mono { display: block; margin-top: 6px; }
+
+.sp-top .langbtn { font-family: var(--mono); font-size: var(--t-meta);
+  letter-spacing: .16em; text-transform: uppercase; color: var(--fg-3); }
+
+/* 中间留空 —— 名字由 canvas 画出，HTML 不重复写一遍 */
+.sp-mid {
+  display: grid; place-items: center;
+  text-align: center;
+}
+.sp-line {
+  max-width: 34ch;
+  color: var(--fg-2);
+  font-size: clamp(.9rem, 1.4vw, 1.05rem);
+  /* 名字在画布中央，文案让开一段距离落在下方 */
+  margin-top: clamp(120px, 26vh, 260px);
+  opacity: 0;
+  animation: fin 1.2s var(--ease) 1.1s forwards;
+}
+.sp-hint {
+  margin-top: var(--s5);
+  opacity: 0;
+  animation: fin 1.2s var(--ease) 1.9s forwards;
+}
+@keyframes fin { to { opacity: 1; } }
+
+/* 进入按钮：圆形描边 + 右侧标签，鼠标悬停时圆环收紧 */
+.enter {
+  display: inline-flex; align-items: center; gap: var(--s4);
+  color: var(--fg);
+}
+.enter .ring {
+  position: relative;
+  width: 62px; height: 62px;
+  border: 1px solid var(--line-2);
+  border-radius: 50%;
+  display: grid; place-items: center;
+  transition: border-color .4s var(--ease), background .4s var(--ease);
+}
+.enter .ring::before {
+  content: "";
+  position: absolute; inset: -1px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  transform: scale(1.28);
+  opacity: 0;
+  transition: transform .5s var(--ease), opacity .5s var(--ease);
+}
+.enter:hover .ring { border-color: var(--accent); background: var(--accent-dim); }
+.enter:hover .ring::before { transform: scale(1); opacity: 1; }
+.enter .ar { transition: transform .4s var(--ease); }
+.enter:hover .ar { transform: translateX(3px); }
+.enter .lab { display: grid; gap: 4px; text-align: left; }
+.enter .lab b { font-weight: 500; font-size: .95rem; }
+
+.sp-bot .right { text-align: right; }
+
+/* 转场：整页压黑，与 canvas 的点阵坍缩同时发生 */
+.splash.leaving .splash-ui { opacity: 0; transition: opacity .45s var(--ease); }
+.splash-veil {
+  position: absolute; inset: 0; z-index: 9;
+  background: #08090B;
+  opacity: 0; pointer-events: none;
+  transition: opacity .55s var(--ease);
+}
+.splash.leaving .splash-veil { opacity: 1; }
+
+@media (max-width: 640px) {
+  .sp-bot { flex-direction: column; align-items: flex-start; gap: var(--s5); }
+  .sp-bot .right { text-align: left; }
+  .sp-line { margin-top: clamp(100px, 22vh, 200px); }
+}
+
+/* 关闭动效偏好时，直接把名字以静态弱显影呈现，并给出明确的进入提示 */
+@media (prefers-reduced-motion: reduce) {
+  .sp-line, .sp-hint { opacity: 1; animation: none; }
+}
