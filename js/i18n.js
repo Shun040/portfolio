@@ -24,7 +24,6 @@ window.I18N = {
 
       'nav.work': 'Work',
       'nav.about': 'About',
-      'nav.strengths': 'Approach',
       'nav.contact': 'Contact',
       'nav.cta': 'Get in touch',
       'nav.menu': 'Menu',
@@ -49,7 +48,6 @@ window.I18N = {
 
       'nav.work': '项目',
       'nav.about': '关于',
-      'nav.strengths': '方法',
       'nav.contact': '联系',
       'nav.cta': '联系我',
       'nav.menu': '菜单',
@@ -293,80 +291,6 @@ window.I18N = {
       'p6.role': '概念、交互、硬件、Unreal Engine 实现',
       'p6.tools': 'Unreal Engine · Arduino · 脉搏与拉伸传感器 · TouchDesigner',
       'p6.note': '所以真正的设计问题是"他愿不愿意再来一次"，而不是沉浸感。'
-    }
-  },
-
-  /* ============ 4. 个人优势 ============ */
-  strengths: {
-    en: {
-      'st.label': 'Approach',
-      'st.title': 'What I am good at, how I work, what I can solve.',
-      'st.intro': 'Six projects is enough of a sample to see the pattern. This is what it is.',
-
-      's1.n': '01',
-      's1.t': 'Research the group nobody designed for',
-      's1.b': 'Carers of autistic partners. People mid-dissociation. Chronic pain patients who have given up on apps. I start where the existing research stops, and I do the primary work myself — personas, pain-point analysis, journey and empathy maps, usability review.',
-      's1.s': 'Solves: a product aimed at a user group you have no data on.',
-
-      's2.n': '02',
-      's2.t': 'End to end, research through to hardware',
-      's2.b': 'Figma wireframes and a working browser prototype and the microcontroller and the sensor rig and the physical build. I don\'t hand a concept over a wall — I take it all the way to something that powers on.',
-      's2.s': 'Solves: the gap between a nice deck and a thing that actually exists.',
-
-      's3.n': '03',
-      's3.t': 'Design for the second use, not the demo',
-      's3.b': 'The hardest part of a care product is not the first session, it\'s the fourth. In Reground and PainShift I made willingness to return the design problem — retention framed as a therapeutic goal rather than a metric.',
-      's3.s': 'Solves: products that demo beautifully and get abandoned in a week.',
-
-      's4.n': '04',
-      's4.t': 'Creative technology as a material',
-      's4.b': 'Machine vision, CNN emotion models, Arduino and ESP32 sensor systems, TouchDesigner, Unreal, AR. Not as features to list — as materials I can reach for when a concept needs one, and can build with without waiting for an engineer.',
-      's4.s': 'Solves: ideas that die because nobody on the team can prototype them.',
-
-      's5.n': '05',
-      's5.t': 'Ship it in a real room',
-      's5.b': 'Layout, budget, materials procurement, fabrication planning, on-site assembly with logistics teams, daily audience facilitation and press interviews across a public showing. Delivery is part of the design, not a phase after it.',
-      's5.s': 'Solves: getting the work built, installed and running on a deadline.',
-
-      's6.n': '06',
-      's6.t': 'Make the work travel',
-      's6.b': 'I produce the documentation and the campaign for my own work. Tears before Words reached 50M+ views and 2M+ engagements; a graduation video ranked #1 on Douyin with 2.2M+ organic likes; the making-of documentary hit 640K+.',
-      's6.s': 'Solves: good work that nobody outside the room ever sees.'
-    },
-    zh: {
-      'st.label': '方法',
-      'st.title': '我擅长什么，怎么工作，能解决什么问题。',
-      'st.intro': '六个项目已经足够看出规律。规律是这些。',
-
-      's1.n': '01',
-      's1.t': '去研究那个没人为之设计的群体',
-      's1.b': '自闭症人士的伴侣。正在经历解离的人。已经放弃了所有 App 的慢性疼痛患者。我从现有研究停下来的地方开始，一手调研自己做 —— 用户画像、痛点分析、旅程图与同理心地图、可用性检查。',
-      's1.s': '能解决：面对一个手上没有任何数据的用户群，产品该从哪里开始。',
-
-      's2.n': '02',
-      's2.t': '从调研一路做到硬件',
-      's2.b': 'Figma 线框、能跑的浏览器原型、单片机、传感器电路、实体搭建，都是我做。我不会把一个概念扔过墙就交差 —— 我会一直做到它能通电为止。',
-      's2.s': '能解决：漂亮的方案稿和真正存在的东西之间那道沟。',
-
-      's3.n': '03',
-      's3.t': '为"第二次使用"设计，不是为演示',
-      's3.b': '照护类产品最难的不是第一次，是第四次。在 Reground 和 PainShift 里，我把"他愿不愿意再来一次"当成设计问题本身 —— 留存不是一个指标，而是一个治疗目标。',
-      's3.s': '能解决：演示时很惊艳、一周后被卸载的产品。',
-
-      's4.n': '04',
-      's4.t': '把技术当材料用',
-      's4.b': '机器视觉、CNN 情绪识别模型、Arduino 与 ESP32 传感系统、TouchDesigner、Unreal、AR。不是简历上的一串词 —— 是概念需要时我能随手拿起来的材料，不用等工程师排期。',
-      's4.s': '能解决：因为团队里没人能做原型而死掉的想法。',
-
-      's5.n': '05',
-      's5.t': '在真实场地里把它落地',
-      's5.b': '场地布局、预算、材料采购、施工排期、与物流团队现场组装、公开展期内每天的观众引导和媒体采访。落地是设计的一部分，不是设计之后的一个阶段。',
-      's5.s': '能解决：如何在死线之前把作品真正做出来、装好、跑起来。',
-
-      's6.n': '06',
-      's6.t': '让作品自己走出去',
-      's6.b': '我的作品，纪录和传播都是我自己做的。《眼泪先于语言》全平台 5000 万+ 播放、200 万+ 互动；毕业视频登上抖音热榜第一，自然点赞 220 万+；技术幕后纪录片 64 万+ 点赞。',
-      's6.s': '能解决：很好的作品，但房间外面没人看见。'
     }
   },
 
