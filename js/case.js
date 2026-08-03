@@ -538,6 +538,36 @@
     });
   }
 
+  /* 浮层的开合用一条弹簧驱动。0 = 关，1 = 开。
+     中途反向时从当前值继续，不会跳 —— 这就是「可打断」。 */
+  var sp = null;
+  function ensureSpring() {
+    if (sp) return sp;
+    var pane = overlay.querySelector('.case-in');
+    sp = new window.Spring({
+      from: 0,
+      damping: 0.85,   // 浮层带一点点回弹，因为它是被「推开」的
+      response: 0.34,
+      onUpdate: function (v) {
+        var c = Math.max(0, Math.min(1, v));
+        overlay.style.setProperty('--p', c.toFixed(4));
+        // 材质要「显形」而不是「淡入」：模糊和缩放一起动
+        overlay.style.backdropFilter = 'blur(' + (26 * c).toFixed(1) + 'px) saturate(' + (100 + 50 * c).toFixed(0) + '%)';
+        overlay.style.webkitBackdropFilter = overlay.style.backdropFilter;
+        if (pane) pane.style.transform = 'scale(' + (0.94 + 0.06 * v).toFixed(4) + ')';
+      },
+      onRest: function (v) {
+        if (v <= 0.001) {
+          overlay.classList.remove('open');
+          body.innerHTML = '';
+          overlay.style.backdropFilter = '';
+          overlay.style.webkitBackdropFilter = '';
+        }
+      }
+    });
+    return sp;
+  }
+
   function open(key) {
     var p = null;
     for (var i = 0; i < window.PROJECTS.length; i++) {
@@ -546,6 +576,17 @@
     if (!p) return;
     current = p;
     try { ensure(); } catch (err) { console.error('[case] 浮层创建失败', err); return; }
+
+    // 空间一致性：浮层从被点的那张卡长出来，关的时候回到同一个地方
+    var card = document.querySelector('[data-case="' + key + '"]');
+    if (card) {
+      var r = card.getBoundingClientRect();
+      overlay.style.setProperty('--ox', (r.left + r.width / 2) + 'px');
+      overlay.style.setProperty('--oy', (r.top + r.height / 2) + 'px');
+    } else {
+      overlay.style.setProperty('--ox', '50%');
+      overlay.style.setProperty('--oy', '40%');
+    }
 
     overlay.style.setProperty('--pa', p.a + '55');
     overlay.style.setProperty('--pa-solid', p.a);
@@ -560,20 +601,25 @@
 
     overlay.classList.add('open');
     overlay.scrollTop = 0;
+    var s = ensureSpring();
+    if (CALM) s.set(1); else s.to(1);
     // 下一帧再加 .shown，条形图才会有生长动画（同帧加会直接跳到终点）
     requestAnimationFrame(function () {
       requestAnimationFrame(function () { overlay.classList.add('shown'); });
     });
     overlay.querySelector('.case-close').focus();
-    history.replaceState(null, '', '#' + key);
+    if (location.hash !== '#' + key) history.replaceState(null, '', '#' + key);
   }
 
   function close() {
     if (!overlay) return;
     if (body._stop) body._stop();
-    overlay.classList.remove('open', 'shown');
-    body.innerHTML = '';
+    overlay.classList.remove('shown');
     current = null;
+
+    // 关也走同一条弹簧，同一条路径回去。中途再点开会从当前位置接住。
+    if (sp) { if (CALM) sp.set(0); else sp.to(0); }
+    else { overlay.classList.remove('open'); body.innerHTML = ''; }
 
     document.body.style.position = '';
     document.body.style.top = '';

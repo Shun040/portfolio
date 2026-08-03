@@ -104,6 +104,26 @@ else:
     ok("页面引用的 %d 组键全部存在" % len(used))
 
 
+# ---------- 3.5 JavaScript 语法 ----------
+# 这一步是补上来的：data.js 曾经因为少一个逗号整站瘫掉，
+# 而当时的自检全绿。语法错误必须在发布前拦住。
+print("\nJavaScript 语法")
+import subprocess
+JS_CHECK = """
+ObjC.import('Foundation');
+var s = $.NSString.stringWithContentsOfFileEncodingError('%s', $.NSUTF8StringEncoding, null).js;
+try { new Function(s); 'OK' } catch (e) { 'ERR ' + e.message }
+"""
+for f in sorted(glob.glob('js/*.js')):
+    r = subprocess.run(['osascript', '-l', 'JavaScript', '-e', JS_CHECK % os.path.abspath(f)],
+                       capture_output=True, text=True)
+    out = r.stdout.strip()
+    if out == 'OK':
+        ok(f)
+    else:
+        bad("%s: %s" % (f, out or r.stderr.strip()))
+
+
 # ---------- 4. CSS 配平 ----------
 print("\nCSS")
 css = ''.join(open(f, encoding='utf-8').read() for f in glob.glob('css/*.css'))

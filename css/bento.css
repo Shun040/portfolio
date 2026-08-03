@@ -266,23 +266,31 @@ body { background: transparent; }
 
 /* ---------- 6. 案例浮层 ---------- */
 .case {
+  --p: 0;                       /* 由弹簧驱动，0 = 关，1 = 开 */
   position: fixed;
   inset: 0;
   z-index: 90;
   display: none;
   overflow-y: auto;
   overscroll-behavior: contain;
-  background: rgba(6,7,12,.72);
-  backdrop-filter: blur(26px) saturate(150%);
-  -webkit-backdrop-filter: blur(26px) saturate(150%);
+  /* 遮罩随开合浓淡变化 —— 模态任务要压暗背景，把注意力收进来 */
+  background: rgba(6,7,12,calc(.78 * var(--p)));
+  /* backdrop-filter 由 JS 逐帧写，和缩放同步，让玻璃「显形」而不是「淡入」 */
 }
 .case.open { display: block; }
+.case-in {
+  /* 从被点的那张卡长出来，关的时候原路回去 */
+  transform-origin: var(--ox, 50%) var(--oy, 40%);
+  opacity: var(--p);
+  will-change: transform, opacity;
+}
 .case-in {
   max-width: 1180px;
   margin: 0 auto;
   padding: clamp(76px, 9vh, 120px) var(--pad) clamp(60px, 10vh, 120px);
 }
 .case-close {
+  opacity: var(--p);
   position: fixed;
   top: 18px; right: clamp(16px, 4vw, 40px);
   z-index: 3;
@@ -685,4 +693,86 @@ body { background: transparent; }
 .cvlist .ve { color: var(--fg-3); }
 @media (max-width: 560px) {
   .cvlist li { grid-template-columns: 1fr; gap: 4px; }
+}
+
+/* ==================================================================
+   16. Apple 流体界面：按下即反馈 · 材质层级 · 滚动边缘
+   ------------------------------------------------------------------
+   要点来自 WWDC《Designing Fluid Interfaces》：
+   反馈发生在按下的那一刻，不是松手之后；一旦出现延迟，
+   「直接操控」的感觉就断了。
+   ================================================================== */
+
+/* ---------- 按下即反馈 ---------- */
+.pcard, .btn, .langbtn, .burger, .case-close, .vid,
+.mapping button, .loop button, .states button, .clipgrid .clip, .totop {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;          /* 去掉移动端 300ms 点击延迟 */
+}
+.btn:active, .langbtn:active, .case-close:active,
+.mapping button:active, .loop button:active, .states button:active {
+  transform: scale(.97);
+  transition: transform 90ms cubic-bezier(.2,0,.2,1);
+}
+/* 大块面按得轻一点，缩太多会显得廉价 */
+.pcard:active { transform: scale(.988); transition: transform 110ms cubic-bezier(.2,0,.2,1); }
+.vid:active, .clipgrid .clip:active { transform: scale(.985); transition: transform 100ms cubic-bezier(.2,0,.2,1); }
+.linklist a:active { opacity: .6; }
+
+/* ---------- 材质层级：不要把浅色半透明叠在浅色半透明上 ----------
+   浮层本身已经是一层玻璃，里面的面板再半透明就会糊成一片、字读不清。
+   所以案例内部的面板改用接近实心的底。 */
+.case .probs li,
+.case .pipe .step,
+.case .tiles .tile,
+.case .mapping button,
+.case .state-stage,
+.case .loop button,
+.case .states button,
+.case .chip {
+  background: rgba(18,21,28,.82);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.case .mapping button:hover,
+.case .mapping button[aria-pressed="true"] { background: rgba(28,32,42,.92); }
+
+/* 玻璃上的文字要「有活力」：加一点字重和字距，别用扁平的灰 */
+.case .lead, .case .probs li, .case .pipe .step p { color: #C6CBD4; }
+
+/* ---------- 滚动边缘：用渐隐代替一条硬分割线 ---------- */
+.bar.stuck { border-bottom-color: transparent; }
+.bar.stuck::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 100%;
+  height: 20px;
+  background: linear-gradient(rgba(8,9,11,.5), transparent);
+  pointer-events: none;
+}
+
+/* ---------- 排印：字距随字号变，不是一个值走天下 ---------- */
+:root { font-optical-sizing: auto; }
+.display { letter-spacing: -.04em; }     /* 越大越要收紧 */
+.h1 { letter-spacing: -.03em; }
+.h2 { letter-spacing: -.022em; }
+.h3 { letter-spacing: -.012em; }
+.box p, .case .lead { letter-spacing: 0; }   /* 正文回到 0 */
+
+/* ---------- 减少动效 / 降低透明度 / 高对比 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .btn:active, .langbtn:active, .pcard:active,
+  .case-close:active, .vid:active, .clipgrid .clip:active { transform: none; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .glass, .bar.stuck, .case { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+  .glass { background: rgba(16,19,26,.96); }
+  .bar.stuck { background: rgba(10,11,15,.97); }
+  .case { background: rgba(8,9,13,.98); }
+  .aurora { opacity: .35; }
+}
+@media (prefers-contrast: more) {
+  .glass { background: #0F1218; border-color: rgba(255,255,255,.42); }
+  .box p, .case .lead { color: #E4E7EC; }
+  .mono { color: #A9B0BB; }
 }
