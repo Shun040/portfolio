@@ -5,6 +5,9 @@
 set -e
 cd "$(dirname "$0")"
 
+echo "▸ 打版本号（断开浏览器缓存）…"
+python3 bump.py
+
 echo "▸ 自检…"
 python3 check.py || { echo "✗ 自检没过，先修好再发"; exit 1; }
 
