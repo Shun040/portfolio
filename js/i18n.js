@@ -19,11 +19,12 @@ window.I18N = {
       'name.full': 'Zicen Yin',
       'name.short': 'ZICEN YIN',
       'name.alt': '尹紫涔',
-      'role': 'Interaction Designer · New Media Artist',
+      'role': 'Artist',
       'location': 'Sydney, Australia',
 
       'nav.work': 'Work',
       'nav.about': 'About',
+      'nav.cv': 'CV',
       'nav.contact': 'Contact',
       'nav.cta': 'Get in touch',
       'nav.menu': 'Menu',
@@ -43,11 +44,12 @@ window.I18N = {
       'name.full': '尹紫涔',
       'name.short': '尹紫涔',
       'name.alt': 'ZICEN YIN',
-      'role': '交互设计 · 新媒体艺术',
+      'role': '艺术创作者',
       'location': '澳大利亚 悉尼',
 
       'nav.work': '项目',
       'nav.about': '关于',
+      'nav.cv': '履历',
       'nav.contact': '联系',
       'nav.cta': '联系我',
       'nav.menu': '菜单',
@@ -87,76 +89,81 @@ window.I18N = {
   /* ============ 1. 首屏 Hero ============ */
   hero: {
     en: {
-      'hero.kicker': 'Interaction Design · New Media · Sydney',
-      'hero.title': 'Systems that make<br><em>invisible harm</em><br>felt.',
-      'hero.body': 'I design interaction systems and new-media installations around care, perception and harm — somewhere between art therapy, product design and critical design. Six projects, taken end to end: from the research nobody had done, through Figma, to hardware that actually powers on in a real room.',
-      'hero.cta1': 'See the work',
-      'hero.cta2': 'Download CV',
+      'hero.kicker': 'Interaction design · Cross-media installation · Public health',
+      'hero.title': 'Looking inside digital technology for<br>constructive means of <em>inner repair</em>.',
+      'hero.body': 'Her practice sits at the intersection of interaction design, cross-media installation and public health — the experience of illness seen close up, psychological reconstruction, and the way institutional environments estrange the individual mind.',
+      'hero.cta1': 'Work',
+      'hero.cta2': 'CV (PDF)',
       'hero.scroll': 'Scroll',
-      'hero.ticker': 'Interaction design · New media installation · UI / UX · Physical computing · Real-time graphics · Wearables · Service design · Machine vision · Sydney ·'
+      'hero.ticker': 'Interaction design · Cross-media installation · Public health · Embodied interaction · Physical computing · Real-time graphics · Machine vision · Sydney ·'
     },
     zh: {
-      'hero.kicker': '交互设计 · 新媒体艺术 · 悉尼',
-      'hero.title': '让<em>看不见的伤害</em><br>被感觉到的系统。',
-      'hero.body': '我做的是围绕照护、感知与伤害的交互系统与新媒体装置 —— 位置在艺术治疗、产品设计和批判性设计之间。六个项目都是从头做到尾：从没人做过的那部分调研开始，经过 Figma，一直做到能在真实场地里通电运行的硬件。',
-      'hero.cta1': '看项目',
-      'hero.cta2': '下载简历',
+      'hero.kicker': '交互设计 · 跨媒介装置 · 公共健康',
+      'hero.title': '在数字技术中寻找<br><em>修复内心</em>的建构性方案。',
+      'hero.body': '其创作立足于交互设计、跨媒介装置与公共健康的交叉领域，聚焦微观视角下的疾病体验、心理重构，以及制度化环境对个体精神的异化。',
+      'hero.cta1': '作品',
+      'hero.cta2': '简历（PDF）',
       'hero.scroll': '向下',
-      'hero.ticker': '交互设计 · 新媒体装置 · UI / UX · 物理计算 · 实时图形 · 可穿戴 · 服务设计 · 机器视觉 · 悉尼 ·'
+      'hero.ticker': '交互设计 · 跨媒介装置 · 公共健康 · 具身交互 · 物理计算 · 实时图形 · 机器视觉 · 悉尼 ·'
     }
   },
 
-  /* ============ 2. 个人经历 ============ */
+  /* ============ 2. 个人简介 ============
+     正文一字未改，取自《尹紫涔_艺术家简介》。英文为对照翻译。 */
   about: {
     en: {
       'about.label': 'About',
-      'about.title': 'I build the thing until it works on one real person.',
-      'about.p1': 'BFA in Sci-Tech Art from the Central Academy of Fine Arts in Beijing; now on a Master of Interaction Design and Electronic Arts at the University of Sydney.',
-      'about.p2': 'My method is the same in every project. Go and research the group nobody has designed for. Find the mechanism that actually changes behaviour. Then build the whole thing — hardware, interface, all of it — until it works in a real room, on a real person.',
-      'about.p3': 'Currently in Sydney and available for part-time, contract and freelance design work — UI, UX, interaction, web and digital media. Remote, hybrid, or on site in the inner city.',
+      'about.title': 'Biography',
+      'about.bio': 'Her practice sits at the intersection of interaction design, cross-media installation and public health, focusing on the experience of illness seen at close range, on psychological reconstruction, and on the estrangement of the individual mind by institutional environments — looking inside digital technology for constructive means of repair. The work comes out of a reflection on how absent psychiatric narrative is from ordinary experience: she refuses to treat psychological difficulty as an isolated "pathological deadlock", and instead translates complex clinical intervention mechanisms into everyday interactive systems with low cognitive friction, using embodied interaction to guide the audience through de-stigmatised healing and social engagement.',
+
+      'about.factsLabel': 'Details',
+      'about.born': 'Born 2004, Shijiazhuang, Hebei',
+      'about.edu': 'BFA, Sci-Tech Art Studio, School of Experimental Art, Central Academy of Fine Arts',
+      'about.based': 'Based in Sydney',
 
       'about.portraitAlt': 'Portrait of Zicen Yin',
       'about.portraitFallback': 'Portrait<br>coming soon',
 
-      'about.introLabel': 'Background',
       'about.contactLabel': 'Contact',
-      'about.numsLabel': 'By the numbers',
       'about.emailLabel': 'Email',
       'about.locLabel': 'Based in',
-      'about.availLabel': 'Availability',
-      'about.availValue': 'Part-time · Contract · Freelance',
       'about.reelLabel': 'Showreel',
-      'about.reelValue': 'Watch on YouTube',
-
-      'about.stat1.n': '06', 'about.stat1.l': 'Self-directed projects',
-      'about.stat2.n': '50M+', 'about.stat2.l': 'Views across platforms',
-      'about.stat3.n': '2M+', 'about.stat3.l': 'Audience engagements',
-      'about.stat4.n': '03', 'about.stat4.l': 'Awards & features'
+      'about.reelValue': 'Watch on YouTube'
     },
     zh: {
       'about.label': '关于',
-      'about.title': '一直做到它对一个真实的人起作用为止。',
-      'about.p1': '本科毕业于中央美术学院科技艺术专业，现就读悉尼大学交互设计与电子艺术硕士（IDEA）。',
-      'about.p2': '我的方法在每个项目里是一致的：先去研究那个没人为之设计的群体，找到真正能改变行为的机制，然后把东西整个做出来 —— 硬件、界面，全部 —— 直到它在一个真实的房间里、对一个真实的人起作用。',
-      'about.p3': '现居悉尼，在读，可接兼职、合同与自由设计工作 —— UI、UX、交互、网页与数字媒体。远程、混合办公，或到悉尼内城现场均可。',
+      'about.title': '个人简介',
+      'about.bio': '其创作立足于交互设计、跨媒介装置与公共健康的交叉领域，聚焦微观视角下的疾病体验、心理重构，以及制度化环境对个体精神的异化，试图在数字技术中寻找修复内心的建构性方案。创作动机源于对精神医学叙事在日常经验中缺位的反思——她拒绝将心理困境孤立地视为"疾病僵局"，而是将复杂的临床心理干预机制转译为低认知摩擦的日常交互系统，通过具身交互引导观众完成去污名化的心理疗愈与社会介入。',
+
+      'about.factsLabel': '基本信息',
+      'about.born': '2004 年出生于河北石家庄',
+      'about.edu': '本科毕业于中央美术学院实验艺术学院科技艺术工作室',
+      'about.based': '现居悉尼',
 
       'about.portraitAlt': '尹紫涔肖像',
       'about.portraitFallback': '人物图<br>待补',
 
-      'about.introLabel': '背景',
       'about.contactLabel': '联系方式',
-      'about.numsLabel': '项目数据',
       'about.emailLabel': '邮箱',
       'about.locLabel': '所在地',
-      'about.availLabel': '工作状态',
-      'about.availValue': '兼职 · 合同 · 自由职业',
       'about.reelLabel': '作品视频',
-      'about.reelValue': '在 YouTube 观看',
+      'about.reelValue': '在 YouTube 观看'
+    }
+  },
 
-      'about.stat1.n': '06', 'about.stat1.l': '独立完成的项目',
-      'about.stat2.n': '5000万+', 'about.stat2.l': '全平台播放量',
-      'about.stat3.n': '200万+', 'about.stat3.l': '互动量',
-      'about.stat4.n': '03', 'about.stat4.l': '奖项与媒体报道'
+  /* ============ 履历 ============ */
+  cv: {
+    en: {
+      'cv.label': 'CV',
+      'cv.title': 'Awards and exhibitions',
+      'cv.awards': 'Awards',
+      'cv.shows': 'Selected exhibitions'
+    },
+    zh: {
+      'cv.label': '履历',
+      'cv.title': '获奖与参展',
+      'cv.awards': '获奖经历',
+      'cv.shows': '参展经历'
     }
   },
 

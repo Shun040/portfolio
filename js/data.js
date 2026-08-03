@@ -781,3 +781,40 @@ window.PROJECTS = [
 }
 
 ];
+
+
+/* ------------------------------------------------------------------
+   履历 —— 全部来自《尹紫涔_艺术家简介》，未增补、未润色
+   ------------------------------------------------------------------ */
+window.CV = {
+  awards: {
+    zh: [
+      ['2022–2023', '中央美术学院优秀学生奖学金'],
+      ['2026', '中央美术学院优秀毕业作品奖']
+    ],
+    en: [
+      ['2022–2023', 'Outstanding Student Scholarship, CAFA'],
+      ['2026', 'Outstanding Graduation Work Award, CAFA']
+    ]
+  },
+  shows: {
+    zh: [
+      ['2023.04', '海洋传感器', '中央美术学院美术馆，北京'],
+      ['2023.11', '艺术之桥 —— 安特卫普到北京，再回来', '安特卫普皇家艺术学院美术馆，比利时'],
+      ['2024.04', '景德镇的他者', '景德镇陶瓷大学美术馆，景德镇'],
+      ['2024.04', '来美术馆跳舞 —— 美术馆场域内的身体与编舞', '中央美术学院美术馆，北京'],
+      ['2024.08', '裁风寻迹 —— 中央美术学院剪纸习作展', '榆阳区文化艺术中心，榆林市'],
+      ['2026.06', '', '郑州八翼美术馆，郑州'],
+      ['2026.07', '入口空间', '']
+    ],
+    en: [
+      ['2023.04', 'Ocean Sensor', 'CAFA Art Museum, Beijing'],
+      ['2023.11', 'A Bridge of Art — Antwerp to Beijing, and Back', 'Royal Academy of Fine Arts Antwerp Museum, Belgium'],
+      ['2024.04', 'The Other of Jingdezhen', 'Jingdezhen Ceramic University Art Museum, Jingdezhen'],
+      ['2024.04', 'Dance in the Museum — Body and Choreography in the Museum Field', 'CAFA Art Museum, Beijing'],
+      ['2024.08', 'Tracing the Wind — CAFA Papercutting Studies', 'Yuyang District Culture and Art Centre, Yulin'],
+      ['2026.06', '', 'Bayi Art Museum, Zhengzhou'],
+      ['2026.07', 'Entrance Space', '']
+    ]
+  }
+};

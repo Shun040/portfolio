@@ -660,3 +660,29 @@ body { background: transparent; }
     linear-gradient(to top, rgba(8,9,11,.72) 0%, rgba(8,9,11,.18) 34%, transparent 62%);
 }
 .portrait.noimg::after { display: none; }
+
+/* ---------- 15. 基本信息与履历 ---------- */
+.facts li {
+  padding: var(--s3) 0;
+  border-bottom: 1px solid var(--glass-brd);
+  font-size: var(--t-small);
+  color: var(--fg-2);
+}
+.facts li:last-child { border-bottom: 0; }
+
+.cvlist li {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  gap: var(--s4);
+  padding: var(--s3) 0;
+  border-bottom: 1px solid var(--glass-brd);
+  align-items: baseline;
+}
+.cvlist li:last-child { border-bottom: 0; }
+.cvlist .yr { color: var(--fg-3); white-space: nowrap; }
+.cvlist .ti { font-size: var(--t-small); color: var(--fg-2); }
+.cvlist .ti b { color: var(--fg); font-weight: 500; }
+.cvlist .ve { color: var(--fg-3); }
+@media (max-width: 560px) {
+  .cvlist li { grid-template-columns: 1fr; gap: 4px; }
+}

@@ -57,7 +57,44 @@
      启动
      ================================================================ */
 
+  /* ---------- 履历：获奖 + 参展 ---------- */
+  function renderCV() {
+    var host = document.getElementById('cvbento');
+    if (!host || !window.CV) return;
+    var L = window.Lang.get();
+    var esc = function (t) {
+      return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    };
+
+    var aw = '';
+    window.CV.awards[L].forEach(function (a) {
+      aw += '<li><span class="yr mono">' + esc(a[0]) + '</span>' +
+            '<span class="ti">' + esc(a[1]) + '</span></li>';
+    });
+
+    var sh = '';
+    window.CV.shows[L].forEach(function (a) {
+      sh += '<li><span class="yr mono">' + esc(a[0]) + '</span><span class="ti">' +
+            (a[1] ? '<b>' + esc(a[1]) + '</b>' : '') +
+            (a[1] && a[2] ? '<br>' : '') +
+            (a[2] ? '<span class="ve">' + esc(a[2]) + '</span>' : '') +
+            '</span></li>';
+    });
+
+    host.innerHTML =
+      '<article class="box glass" style="--c:4;--mh:200px">' +
+        '<div class="box-label"><span class="mono">' + esc(window.Lang.t('cv.awards')) + '</span></div>' +
+        '<ul class="cvlist">' + aw + '</ul>' +
+      '</article>' +
+      '<article class="box glass" style="--c:8;--mh:200px">' +
+        '<div class="box-label"><span class="mono">' + esc(window.Lang.t('cv.shows')) + '</span></div>' +
+        '<ul class="cvlist">' + sh + '</ul>' +
+      '</article>';
+  }
+
   window.Lang.init();
+  renderCV();
+  window.Lang.onChange(renderCV);
   splitAll();                // 拆字必须在文案写入之后
 
   // 换语言会重写 innerHTML，拆好的字会被冲掉，所以重拆一次；
