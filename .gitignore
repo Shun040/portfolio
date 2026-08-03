@@ -1,3 +1,6 @@
 .DS_Store
 *.pyc
 __pycache__/
+
+# 人物图原片，只保留裁好的 portrait.jpg
+assets/portrait[0-9].jpg

@@ -638,4 +638,20 @@ body > *:not(.aurora) { position: relative; z-index: 1; }
 
 /* 人物图占位：没有 portrait.jpg 时露出斜纹块 */
 .portrait.ph > img { width: 100%; height: 100%; object-fit: cover; }
-.portrait::after { display: none; }
+
+/* 照片是白天户外拍的，天空和草地在暗色站上会亮得刺眼。
+   这里叠一层暗角 + 底部渐隐，把照片融进玻璃卡里，而不是贴上去。
+   做在 CSS 而不是烤进图片，方便以后换照片。 */
+.portrait::after {
+  display: block;
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 88% at 52% 32%, transparent 26%, rgba(8,9,11,.58) 100%),
+    linear-gradient(to top, rgba(8,9,11,.72) 0%, rgba(8,9,11,.18) 34%, transparent 62%);
+}
+.portrait.noimg::after { display: none; }
