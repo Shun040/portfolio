@@ -1,5 +1,5 @@
 /* ------------------------------------------------------------------
-   case.js — 项目便当盒 + 可交互案例浮层
+   case.js — 作品档案表 + 可交互案例浮层
    ------------------------------------------------------------------
    数据来自 data.js。每个项目打开后是一份完整案例，不是一句话简介：
      背景 → 调研（真实数字，四种可视化）→ 机制（三种交互形态）
@@ -48,46 +48,44 @@
      六个盒子刻意不等大：01 是毕业作品，占最大格。
      ================================================================ */
 
-  var SPAN = [
-    { c: 8, rw: 2, mh: 420 },   // 01 Tears — 主位
-    { c: 4, rw: 1, mh: 200 },   // 02 EXSTASIS
-    { c: 4, rw: 1, mh: 200 },   // 03 PainShift
-    { c: 4, rw: 1, mh: 260 },   // 04 Reground
-    { c: 4, rw: 1, mh: 260 },   // 05 EmpaLens
-    { c: 4, rw: 1, mh: 260 }    // 06 Through Their Eyes
-  ];
+  function renderTable() {
+    var host = document.getElementById('worktable');
+    if (!host || !window.PROJECTS) return;
 
-  function renderBento() {
-    var host = document.getElementById('workbento');
-    if (!host) return;
-    var html = '';
-
+    var rows = '', plate = '';
     for (var i = 0; i < window.PROJECTS.length; i++) {
-      var p = window.PROJECTS[i], d = P(p), s = SPAN[i] || SPAN[5];
-      html +=
-        '<article class="box glass glass--hover box--hover" ' +
-          'style="--c:' + s.c + ';--rw:' + s.rw + ';--mh:' + s.mh + 'px;' +
-                 '--pa:' + p.a + '55;--pa-solid:' + p.a + '">' +
-          '<a class="pcard" href="#' + p.key + '" data-case="' + p.key + '" ' +
-              'aria-label="' + esc(d.name) + '">' +
-            '<span class="ph">' +
-              '<img src="' + p.img + '" alt="" loading="lazy" decoding="async">' +
-            '</span>' +
-            '<span class="tint"></span>' +
-            '<span class="veil"></span>' +
-            '<span class="idx">' + p.id + '</span>' +
-            '<span class="inner">' +
-              '<h3>' + esc(d.name) + '</h3>' +
-              '<p class="mono type">' + esc(d.type) + '</p>' +
-              '<p class="tag">' + esc(d.tag) + '</p>' +
-              '<span class="open"><span data-i18n="work.open"></span><span>→</span></span>' +
-            '</span>' +
-          '</a>' +
-        '</article>';
+      var p = window.PROJECTS[i], d = P(p);
+      rows +=
+        '<a class="row-work" href="#' + p.key + '" data-case="' + p.key + '">' +
+          '<span class="no">' + p.id + '</span>' +
+          '<span class="nm">' + esc(d.name) +
+            '<span class="sub">' + esc(d.tag) + '</span></span>' +
+          '<span class="ty">' + esc(d.type) + '</span>' +
+          '<span class="yr">' + esc(d.year) + '</span>' +
+        '</a>';
+      plate +=
+        '<a class="ph" href="#' + p.key + '" data-case="' + p.key + '" ' +
+           'aria-label="' + esc(d.name) + '">' +
+          '<img src="' + p.img + '" alt="" loading="lazy" decoding="async">' +
+          '<span class="cap">' + p.id + '</span>' +
+        '</a>';
     }
-    host.innerHTML = html;
+
+    host.innerHTML =
+      '<div class="wtable">' +
+        '<div class="wthead">' +
+          '<span>' + esc(T('arc.thNo')) + '</span>' +
+          '<span>' + esc(T('arc.thTitle')) + '</span>' +
+          '<span>' + esc(T('arc.thType')) + '</span>' +
+          '<span style="text-align:right">' + esc(T('arc.thYear')) + '</span>' +
+        '</div>' + rows +
+      '</div>' +
+      '<p class="mono" style="margin-top:var(--s7);margin-bottom:var(--s3)">' +
+        esc(T('arc.plate')) + '</p>' +
+      '<div class="plate">' + plate + '</div>';
+
     watch(host);
-    window.Lang.apply(L());   // 把 data-i18n="work.open" 填上
+    window.Lang.apply(L());
   }
 
   /* ================================================================
@@ -269,16 +267,16 @@
   function build(p) {
     var d = P(p), h = '';
 
-    /* --- 头图 --- */
-    h += '<div class="case-hero">' +
-           '<div class="ph"><img src="' + p.img + '" alt="' + esc(d.name) + '"></div>' +
-           '<div class="veil"></div>' +
-           '<div class="inner">' +
-             '<p class="mono">' + p.id + ' · ' + esc(d.year) + '</p>' +
-             '<h2>' + esc(d.name) + '</h2>' +
-             '<p class="mono" style="margin-top:10px">' + esc(d.type) + '</p>' +
+    /* --- 档案头 --- */
+    h += '<div class="case-head">' +
+           '<div class="line">' +
+             '<span class="no">' + T('arc.docno') + ' ZY—' + esc(d.year) + '—' + p.id + '</span>' +
+             '<span>' + esc(d.type) + '</span>' +
            '</div>' +
-         '</div>';
+           '<h2>' + esc(d.name) + '</h2>' +
+         '</div>' +
+         '<figure><div class="ph"><img src="' + p.img + '" alt="' + esc(d.name) + '" ' +
+           'style="width:100%"></div></figure>';
 
     /* --- 论点 + 参数 --- */
     h += '<p class="case-thesis">' + d.thesis + '</p>';
@@ -632,7 +630,7 @@
      8. 启动
      ================================================================ */
 
-  renderBento();
+  renderTable();
 
   document.addEventListener('click', function (e) {
     var b = e.target.closest && e.target.closest('[data-case]');
@@ -650,7 +648,7 @@
 
   // 换语言：便当盒重渲染；案例开着的话原地重建，保持在同一个项目上
   window.Lang.onChange(function () {
-    renderBento();
+    renderTable();
     if (current) {
       var p = current;
       if (body._stop) body._stop();

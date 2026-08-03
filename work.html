@@ -3,264 +3,179 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Zicen Yin — Interaction Design & New Media</title>
-<meta name="description" content="Interaction designer and creative technologist in Sydney.">
-<meta name="theme-color" content="#08090B">
-<meta property="og:title" content="Zicen Yin — Interaction Design & New Media">
+<title>Zicen Yin — Artist</title>
+<meta name="description" content="Artist. Interaction design, cross-media installation and public health.">
+<meta name="theme-color" content="#EFEDE7">
+<meta property="og:title" content="Zicen Yin — Artist">
 <meta property="og:image" content="https://shun040.github.io/portfolio/assets/og-cover.jpg">
-<meta property="og:type" content="website">
 <meta property="og:url" content="https://shun040.github.io/portfolio/work.html">
-<link rel="stylesheet" href="css/site.css?v=1785780659">
-<link rel="stylesheet" href="css/bento.css?v=1785780659">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="css/archive.css?v=1785782676">
 </head>
 <body>
 
-<a class="skip" href="#work">Skip to work</a>
+<a class="skip" href="#works">Skip to works</a>
 
-<!-- 极光背景：四团缓慢漂移的模糊光斑 + 一层噪点压色带 -->
-<div class="aurora" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+<!-- 装订孔 -->
+<div class="punch" aria-hidden="true"><i></i><i></i><i></i></div>
 
-<!-- ============ 导航 ============ -->
+<!-- ============ 页眉：档案条 ============ -->
 <header class="bar" id="bar">
   <div class="bar-in">
-    <a class="brand" href="index.html">
-      <b data-i18n="name.full">Zicen Yin</b>
-      <span class="mono" data-i18n="name.alt">尹紫涔</span>
-    </a>
-
-    <nav class="navlinks" id="nav">
-      <a href="#work"      data-i18n="nav.work">Work</a>
-      <a href="#cv"        data-i18n="nav.cv">CV</a>
-      <a href="#about"     data-i18n="nav.about">About</a>
-      <a href="#contact"   data-i18n="nav.contact">Contact</a>
+    <span class="name"><b data-i18n="name.full">Zicen Yin</b></span>
+    <nav id="nav">
+      <a href="#subject" data-i18n="arc.s1">Subject</a>
+      <a href="#works"   data-i18n="arc.s2">Works</a>
+      <a href="#record"  data-i18n="arc.s3">Record</a>
+      <a href="#contact" data-i18n="arc.s4">Contact</a>
     </nav>
-
-    <div class="bar-end">
-      <button class="langbtn mono" id="lang"
+    <span class="tools">
+      <button class="langbtn" id="lang"
               data-i18n="lang.toggle"
               data-i18n-attr="aria-label:lang.label">中文</button>
-      <a class="btn btn--sm btn--nav" href="#contact" data-i18n="nav.cta">Get in touch</a>
-      <button class="burger" id="burger" aria-expanded="false"
-              data-i18n-attr="aria-label:nav.menu">
-        <i></i><i></i>
-      </button>
-    </div>
+    </span>
   </div>
 </header>
 
-<main>
+<main class="sheet">
 
-<!-- ============ 1. 首屏 Hero ============ -->
-<section class="hero" id="top">
-  <canvas class="hero-bg" id="herofield" aria-hidden="true"></canvas>
-
-  <div class="wrap hero-in">
-    <div class="hero-kicker">
-      <span class="dot" aria-hidden="true"></span>
-      <span class="mono" data-i18n="hero.kicker">Interaction Design · New Media · Sydney</span>
+  <!-- ============ 封面 ============ -->
+  <section class="cover" id="top">
+    <div class="cover-meta">
+      <span><span data-i18n="arc.docno">File no.</span> ZY—2026—06</span>
+      <span><span data-i18n="arc.issued">Issued</span> 2026.08</span>
+      <span data-i18n="location">Sydney, Australia</span>
     </div>
 
-    <h1 class="display hero-title split" data-i18n="hero.title">
-      Systems that make<br><em>invisible harm</em><br>felt.
-    </h1>
+    <h1 class="cover-name" data-i18n="name.full">Zicen Yin</h1>
+    <p class="cover-role" data-i18n="role">Artist</p>
+    <p class="cover-state" data-i18n="hero.body"></p>
 
-    <p class="lede hero-body" data-i18n="hero.body"></p>
-
-    <div class="hero-actions">
-      <a class="btn btn--solid" href="#work">
-        <span data-i18n="hero.cta1">See the work</span><span class="ar" aria-hidden="true">→</span>
-      </a>
-      <a class="btn" href="assets/Zicen-Yin-CV.pdf" download>
-        <span data-i18n="hero.cta2">Download CV</span><span class="ar" aria-hidden="true">↓</span>
-      </a>
+    <div class="stamp" aria-hidden="true">
+      <span>
+        <span data-i18n="arc.stamp1">CAFA</span><br>
+        ★<br>
+        <span data-i18n="arc.stamp2">EXPERIMENTAL ART</span>
+      </span>
     </div>
-  </div>
+  </section>
 
-  <div class="wrap hero-foot">
-    <span class="mono" data-i18n="status">Open to work</span>
-    <span class="scrollcue mono">
-      <span data-i18n="hero.scroll">Scroll</span><i aria-hidden="true"></i>
-    </span>
-  </div>
-</section>
+  <!-- ============ 一 · 个人档案 ============ -->
+  <section id="subject">
+    <div class="sec-h">
+      <span class="no">01</span>
+      <h2 data-i18n="arc.s1">Subject</h2>
+      <span class="fill"></span>
+    </div>
 
-<div class="ticker mono" aria-hidden="true">
-  <div class="ticker-track">
-    <span data-i18n="hero.ticker"></span><span data-i18n="hero.ticker"></span>
-  </div>
-</div>
+    <div class="bio-grid">
+      <div class="bio-body">
+        <p data-i18n="about.bio"></p>
 
-<!-- ============ 2. 个人经历（便当盒） ============ -->
-<section class="sec" id="about">
-  <div class="wrap sec-grid">
-    <aside class="sec-aside mono">
-      <span class="idxnum">01</span>
-      <span class="lab" data-i18n="about.label">About</span>
-    </aside>
-
-    <div>
-      <h2 class="h1 sec-head split" data-i18n="about.title"></h2>
-
-      <div class="bento">
-
-        <!-- 人物图 -->
-        <article class="box glass box--flush" style="--c:4;--rw:2;--mh:230px">
-          <figure class="portrait ph" id="portrait"
-                  style="height:100%;border:0;border-radius:inherit;aspect-ratio:auto">
-            <img src="assets/portrait.jpg" alt="" data-i18n-attr="alt:about.portraitAlt"
-                 onerror="this.closest('.portrait').classList.add('noimg','ready')">
-            <figcaption class="portrait-ph mono" data-i18n="about.portraitFallback"></figcaption>
-          </figure>
-        </article>
-
-        <!-- 个人简介：原文一字未改 -->
-        <article class="box glass" style="--c:8;--mh:230px">
-          <div class="box-label"><span class="mono" data-i18n="about.title">Biography</span></div>
-          <p data-i18n="about.bio"></p>
-        </article>
-
-        <!-- 基本信息 -->
-        <article class="box glass" style="--c:4;--mh:230px">
-          <div class="box-label"><span class="mono" data-i18n="about.factsLabel">Details</span></div>
-          <ul class="facts">
-            <li data-i18n="about.born"></li>
-            <li data-i18n="about.edu"></li>
-            <li data-i18n="about.edu2"></li>
-            <li data-i18n="about.based"></li>
-          </ul>
-        </article>
-
-        <!-- 联系方式 -->
-        <article class="box glass glass--hover" style="--c:4;--mh:230px">
-          <div class="box-label"><span class="mono" data-i18n="about.contactLabel">Contact</span></div>
-          <div class="deflist" style="border-top:0;margin-top:0">
-            <div>
-              <span class="mono" data-i18n="about.emailLabel">Email</span>
-              <a href="mailto:502874781s@gmail.com">502874781s@gmail.com</a>
-            </div>
-            <div style="border-bottom:0">
-              <span class="mono" data-i18n="about.reelLabel">Showreel</span>
-              <a href="https://youtu.be/N6lR66sqVSg" target="_blank" rel="noopener"
-                 data-i18n="about.reelValue">Watch on YouTube</a>
-            </div>
+        <dl class="fields" style="margin-top:var(--s7)">
+          <div>
+            <dt data-i18n="about.factsLabel">Details</dt>
+            <dd data-i18n="about.born"></dd>
           </div>
-        </article>
-
+          <div>
+            <dt>&nbsp;</dt>
+            <dd data-i18n="about.edu"></dd>
+          </div>
+          <div>
+            <dt>&nbsp;</dt>
+            <dd data-i18n="about.edu2"></dd>
+          </div>
+          <div>
+            <dt>&nbsp;</dt>
+            <dd data-i18n="about.based"></dd>
+          </div>
+          <div>
+            <dt data-i18n="about.emailLabel">Email</dt>
+            <dd><a href="mailto:502874781s@gmail.com">502874781s@gmail.com</a></dd>
+          </div>
+          <div>
+            <dt data-i18n="about.reelLabel">Showreel</dt>
+            <dd><a href="https://youtu.be/N6lR66sqVSg" target="_blank" rel="noopener"
+                   data-i18n="about.reelValue">Watch on YouTube</a></dd>
+          </div>
+        </dl>
       </div>
+
+      <figure class="idphoto ph" id="portrait">
+        <img src="assets/portrait.jpg" alt="" data-i18n-attr="alt:about.portraitAlt"
+             onerror="this.closest('.idphoto').classList.add('noimg','ready')">
+        <div class="ph-note" data-i18n="about.portraitFallback"></div>
+        <figcaption data-i18n="arc.photo">Photograph</figcaption>
+      </figure>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ============ 3. 精选项目（便当盒 → 可交互案例） ============ -->
-<section class="sec" id="work">
-  <div class="wrap sec-grid">
-    <aside class="sec-aside mono">
-      <span class="idxnum">02</span>
-      <span class="lab" data-i18n="work.label">Selected work</span>
-    </aside>
-
-    <div>
-      <h2 class="h1 sec-head split" data-i18n="work.title"></h2>
-      <p class="lede sec-intro rv" data-i18n="work.intro"></p>
-
-      <!-- 由 case.js 依据 data.js 渲染；点任意一格展开完整案例 -->
-      <div class="bento work-bento" id="workbento"></div>
+  <!-- ============ 二 · 作品档案 ============ -->
+  <section id="works" style="margin-top:var(--s9)">
+    <div class="sec-h">
+      <span class="no">02</span>
+      <h2 data-i18n="arc.s2">Works</h2>
+      <span class="fill"></span>
+      <span class="cnt">06</span>
     </div>
-  </div>
-</section>
 
-<!-- ============ 4. 履历 ============ -->
-<section class="sec" id="cv">
-  <div class="wrap sec-grid">
-    <aside class="sec-aside mono">
-      <span class="idxnum">03</span>
-      <span class="lab" data-i18n="cv.label">CV</span>
-    </aside>
+    <!-- 表格与图版由 case.js 依据 data.js 生成 -->
+    <div id="worktable"></div>
+  </section>
 
-    <div>
-      <h2 class="h1 sec-head split" data-i18n="cv.title"></h2>
-      <div class="bento" id="cvbento"></div>
+  <!-- ============ 三 · 履历 ============ -->
+  <section id="record" style="margin-top:var(--s9)">
+    <div class="sec-h">
+      <span class="no">03</span>
+      <h2 data-i18n="arc.s3">Record</h2>
+      <span class="fill"></span>
     </div>
+    <div class="two-col" id="cvtables"></div>
+  </section>
+
+  <!-- ============ 四 · 联系 ============ -->
+  <section id="contact" style="margin-top:var(--s9)">
+    <div class="sec-h">
+      <span class="no">04</span>
+      <h2 data-i18n="arc.s4">Contact</h2>
+      <span class="fill"></span>
+    </div>
+
+    <dl class="fields">
+      <div>
+        <dt data-i18n="ct.l1">Email</dt>
+        <dd><a href="mailto:502874781s@gmail.com">502874781s@gmail.com</a></dd>
+      </div>
+      <div>
+        <dt data-i18n="ct.l3">Showreel</dt>
+        <dd><a href="https://youtu.be/N6lR66sqVSg" target="_blank" rel="noopener">youtu.be/N6lR66sqVSg</a></dd>
+      </div>
+      <div>
+        <dt data-i18n="ct.l4">CV (PDF)</dt>
+        <dd><a href="assets/Zicen-Yin-CV.pdf" download>Zicen-Yin-CV.pdf</a></dd>
+      </div>
+      <div>
+        <dt data-i18n="about.locLabel">Based in</dt>
+        <dd data-i18n="location">Sydney, Australia</dd>
+      </div>
+    </dl>
+
+    <p style="margin-top:var(--s6);max-width:52ch;font-size:var(--t-small);color:var(--ink-2)"
+       data-i18n="ct.body"></p>
+  </section>
+
+  <div class="pfoot">
+    <span>© <span data-i18n="year">2026</span> <span data-i18n="name.full">Zicen Yin</span></span>
+    <span data-i18n="arc.end">End of file</span>
+    <a href="#top"><span data-i18n="backtotop">Back to top</span> ↑</a>
   </div>
-</section>
 
 </main>
 
-<!-- ============ 5. 页尾联系（便当盒） ============ -->
-<footer class="foot" id="contact">
-  <div class="wrap sec-grid">
-    <aside class="sec-aside mono">
-      <span class="idxnum">04</span>
-      <span class="lab" data-i18n="ct.label">Contact</span>
-    </aside>
-
-    <div>
-      <h2 class="display foot-title split" data-i18n="ct.title">Let's talk.</h2>
-      <p class="lede foot-body rv" data-i18n="ct.body"></p>
-
-      <div class="bento">
-
-        <article class="box glass glass--hover" style="--c:8;--mh:220px">
-          <div class="box-label"><span class="mono" data-i18n="ct.label">Contact</span></div>
-          <a class="maillink" href="mailto:502874781s@gmail.com"
-             style="margin-top:0;font-size:clamp(1.3rem,3.4vw,2.6rem)">502874781s@gmail.com</a>
-          <a class="btn btn--solid" href="mailto:502874781s@gmail.com"
-             style="margin-top:auto;align-self:flex-start">
-            <span data-i18n="ct.emailCta">Write to me</span><span class="ar" aria-hidden="true">→</span>
-          </a>
-        </article>
-
-        <article class="box glass" style="--c:4;--mh:220px">
-          <div class="box-label">
-            <span class="dot" aria-hidden="true"></span>
-            <span class="mono" data-i18n="ct.availTitle">Availability</span>
-          </div>
-          <p data-i18n="ct.availBody"></p>
-          <p class="mono" style="margin-top:auto;padding-top:var(--s4)" data-i18n="ct.respBody"></p>
-        </article>
-
-        <article class="box glass" style="--c:6;--mh:200px">
-          <div class="box-label"><span class="mono" data-i18n="ct.or">or find me here</span></div>
-          <ul class="linklist">
-            <li><a href="mailto:502874781s@gmail.com">
-              <span data-i18n="ct.l1">Email</span><span class="ar" aria-hidden="true">↗</span></a></li>
-            <li><a href="https://mud-platinum-9db.notion.site/Zicen-Yin-Interaction-Designer-Tech-Artist-398f8a8f431d8095a259f0290c741105" target="_blank" rel="noopener">
-              <span data-i18n="ct.l2">Full portfolio</span><span class="ar" aria-hidden="true">↗</span></a></li>
-            <li><a href="https://youtu.be/N6lR66sqVSg" target="_blank" rel="noopener">
-              <span data-i18n="ct.l3">Showreel</span><span class="ar" aria-hidden="true">↗</span></a></li>
-            <li style="border-bottom:0"><a href="assets/Zicen-Yin-CV.pdf" download>
-              <span data-i18n="ct.l4">CV (PDF)</span><span class="ar" aria-hidden="true">↓</span></a></li>
-          </ul>
-        </article>
-
-        <article class="box glass" style="--c:6;--mh:200px">
-          <div class="box-label"><span class="mono" data-i18n="about.factsLabel">Details</span></div>
-          <ul class="facts">
-            <li data-i18n="about.born"></li>
-            <li data-i18n="about.edu"></li>
-            <li data-i18n="about.edu2"></li>
-            <li data-i18n="about.based"></li>
-          </ul>
-        </article>
-
-      </div>
-
-      <div class="colophon mono">
-        <span>© <span data-i18n="year">2026</span> <span data-i18n="name.full">Zicen Yin</span>. <span data-i18n="ct.rights">All rights reserved.</span></span>
-        <span data-i18n="ct.built"></span>
-        <a class="totop" href="#top">
-          <span data-i18n="backtotop">Back to top</span><span aria-hidden="true">↑</span>
-        </a>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<script src="js/spring.js?v=1785780659"></script>
-<script src="js/i18n.js?v=1785780659"></script>
-<script src="js/data.js?v=1785780659"></script>
-<script src="js/field.js?v=1785780659"></script>
-<script src="js/site.js?v=1785780659"></script>
-<script src="js/case.js?v=1785780659"></script>
+<script src="js/spring.js?v=1785782676"></script>
+<script src="js/i18n.js?v=1785782676"></script>
+<script src="js/data.js?v=1785782676"></script>
+<script src="js/site.js?v=1785782676"></script>
+<script src="js/case.js?v=1785782676"></script>
 </body>
 </html>

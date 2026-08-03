@@ -153,6 +153,48 @@ window.I18N = {
     }
   },
 
+  /* ============ 档案外壳 ============ */
+  arc: {
+    en: {
+      'arc.docno': 'File no.',
+      'arc.issued': 'Issued',
+      'arc.pages': 'Page',
+      'arc.s1': 'Subject',
+      'arc.s2': 'Works',
+      'arc.s3': 'Record',
+      'arc.s4': 'Contact',
+      'arc.stamp1': 'CAFA',
+      'arc.stamp2': 'EXPERIMENTAL ART',
+      'arc.photo': 'Photograph',
+      'arc.thNo': 'No.',
+      'arc.thTitle': 'Title',
+      'arc.thType': 'Medium',
+      'arc.thYear': 'Year',
+      'arc.plate': 'Plate — documentation',
+      'arc.open': 'Open file',
+      'arc.end': 'End of file'
+    },
+    zh: {
+      'arc.docno': '档案编号',
+      'arc.issued': '建档日期',
+      'arc.pages': '页',
+      'arc.s1': '个人档案',
+      'arc.s2': '作品档案',
+      'arc.s3': '履历',
+      'arc.s4': '联系',
+      'arc.stamp1': '中央美术学院',
+      'arc.stamp2': '实验艺术学院',
+      'arc.photo': '证件照',
+      'arc.thNo': '编号',
+      'arc.thTitle': '名称',
+      'arc.thType': '媒介',
+      'arc.thYear': '年份',
+      'arc.plate': '图版 · 现场记录',
+      'arc.open': '调阅',
+      'arc.end': '档案完'
+    }
+  },
+
   /* ============ 履历 ============ */
   cv: {
     en: {
