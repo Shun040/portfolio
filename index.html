@@ -6,8 +6,8 @@
 <title>Zicen Yin — Artist</title>
 <meta name="description" content="Artist. Interaction design, cross-media installation and public health.">
 <meta name="theme-color" content="#060812">
-<link rel="stylesheet" href="css/archive.css?v=1785818096">
-<link rel="stylesheet" href="css/sandbox.css?v=1785818096">
+<link rel="stylesheet" href="css/archive.css?v=1785818625">
+<link rel="stylesheet" href="css/sandbox.css?v=1785818625">
 <link rel="prefetch" href="work.html">
 </head>
 <body class="is-home">
@@ -45,6 +45,7 @@
     <div class="sb" id="sandbox"></div>
     <div class="sb-label" id="sb-label" aria-hidden="true"></div>
     <p class="sb-hint mono" data-i18n="sb.hint">Hover an object · click to open</p>
+    <p class="sb-err mono" id="sb-err" hidden></p>
   </div>
 
   <!-- WebGL 不可用 / 屏幕阅读器 / 移动端的等价入口 -->
@@ -55,12 +56,19 @@
 
 </main>
 
+<script>
+window.addEventListener('error', function (e) {
+  if (!e.target || e.target.tagName !== 'SCRIPT') return;
+  var el = document.getElementById('sb-err');
+  if (el) { el.textContent = 'script failed: ' + (e.target.src || ''); el.hidden = false; }
+}, true);
+</script>
 <script type="importmap">
 { "imports": { "three": "./assets/vendor/three.module.js" } }
 </script>
-<script src="js/spring.js?v=1785818096"></script>
-<script src="js/i18n.js?v=1785818096"></script>
-<script src="js/data.js?v=1785818096"></script>
+<script src="js/spring.js?v=1785818625"></script>
+<script src="js/i18n.js?v=1785818625"></script>
+<script src="js/data.js?v=1785818625"></script>
 <script>
 (function () {
   'use strict';
@@ -85,6 +93,6 @@
   window.Lang.onChange(links);
 })();
 </script>
-<script type="module" src="js/sandbox.js?v=1785818096"></script>
+<script type="module" src="js/sandbox.js?v=1785818625"></script>
 </body>
 </html>

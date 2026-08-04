@@ -97,3 +97,9 @@
   .sb { transition: none; }
   .sb-label { transition: none; }
 }
+
+/* 出错时的可见提示：静默失败最难查 */
+.sb-err {
+  position: absolute; left: var(--gutter); bottom: calc(var(--md) + 1.6em);
+  z-index: 4; color: var(--red); max-width: 60ch;
+}

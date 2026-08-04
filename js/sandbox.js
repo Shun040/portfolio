@@ -15,7 +15,6 @@
    ------------------------------------------------------------------ */
 
 import * as THREE from 'three';
-import { GLTFLoader } from '../assets/vendor/GLTFLoader.js';
 
 const HOST = document.getElementById('sandbox');
 const LABEL = document.getElementById('sb-label');
@@ -193,8 +192,15 @@ function init() {
   scene.add(fill);
 
   /* ---------- 物体 ---------- */
-  const loader = new GLTFLoader();
+  // GLTFLoader 单独动态加载：没有它照样能跑（用替身几何体），
+  // 静态 import 的话它一挂，整个模块都不会执行，页面就是一片空白
+  let loader = null;
+  import('../assets/vendor/GLTFLoader.js')
+    .then(m => { loader = new m.GLTFLoader(); loadModels(); })
+    .catch(e => console.warn('[sandbox] GLTFLoader 未加载，使用替身几何体', e));
+
   const objs = [];
+  const pending = [];
 
   ITEMS.forEach((it, i) => {
     const pivot = new THREE.Group();          // 负责浮起与旋转
@@ -213,7 +219,7 @@ function init() {
     stand.position.y = 0.34;
     place(stand);
 
-    loader.load(
+    pending.push(() => loader.load(
       'assets/models/' + it.key + '.glb',
       (gltf) => {
         const m = gltf.scene;
@@ -229,7 +235,7 @@ function init() {
       },
       undefined,
       () => { /* 没有模型就一直用替身，不报错 */ }
-    );
+    ));
 
     // 每件物体一条弹簧，控制浮起高度 0 → 1
     const spring = new window.Spring({
@@ -242,6 +248,8 @@ function init() {
 
     objs.push({ pivot, spring, key: it.key, hot: 0 });
   });
+
+  function loadModels() { pending.forEach(fn => fn()); }
 
   /* ---------- 拾取 ---------- */
   const ray = new THREE.Raycaster();
@@ -341,12 +349,21 @@ function init() {
   HOST.classList.add('ready');
 }
 
-/* WebGL 不可用就保持 HTML 里的文字列表兜底 */
+/* 失败时把原因显示在页面上 —— 静默隐藏会让人以为「没做」 */
+function fail(msg, e) {
+  HOST.classList.add('nogl');
+  console.error('[sandbox]', msg, e || '');
+  const el = document.getElementById('sb-err');
+  if (el) {
+    el.textContent = 'sandbox: ' + msg + (e && e.message ? ' — ' + e.message : '');
+    el.hidden = false;
+  }
+}
+
 try {
   const c = document.createElement('canvas');
-  if (c.getContext('webgl2') || c.getContext('webgl')) init();
-  else HOST.classList.add('nogl');
+  if (!(c.getContext('webgl2') || c.getContext('webgl'))) fail('WebGL 不可用，已降级为列表');
+  else init();
 } catch (e) {
-  HOST.classList.add('nogl');
-  console.warn('[sandbox] WebGL 不可用，已降级为列表', e);
+  fail('初始化失败', e);
 }
