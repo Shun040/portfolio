@@ -14,7 +14,9 @@
    不会先播完再反向。
    ------------------------------------------------------------------ */
 
-import * as THREE from 'three';
+// 用相对路径而不是裸名 'three' —— 裸名要靠 import map，
+// 而 import map 在 Safari 16.4 之前不支持，解析失败会让整个模块不执行
+import * as THREE from '../assets/vendor/three.module.js';
 
 const HOST = document.getElementById('sandbox');
 const LABEL = document.getElementById('sb-label');
