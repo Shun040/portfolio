@@ -108,12 +108,25 @@ function init() {
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  // 这两行是观感的分水岭：不做色调映射的话，高光会硬生生削平，
+  // 整个场景是死板的塑料感
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.05;
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
   HOST.appendChild(renderer.domElement);
 
   const scene = new THREE.Scene();
+
+  // 环境贴图：给所有材质一个可反射的环境。没有它，金属和玻璃都是死的。
+  // RoomEnvironment 是 three 自带的程序化房间，不需要下载 HDR 贴图。
+  import('../assets/vendor/RoomEnvironment.js').then(m => {
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    scene.environment = pmrem.fromScene(new m.RoomEnvironment(), 0.04).texture;
+    scene.environmentIntensity = 0.55;
+    pmrem.dispose();
+  }).catch(e => console.warn('[sandbox] 环境贴图未加载', e));
   const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 60);
-  camera.position.set(0, 4.3, 6.1);
-  camera.lookAt(0, 0.1, 0.25);
+  // 位置每帧由轨道算出，这里只给个初值避免第一帧闪
 
   /* ---------- 沙盘本体 ----------
      照心理治疗用的沙盘做：木框、内壁涂蓝（底表示水、侧表示天）、细沙。
@@ -239,6 +252,16 @@ function init() {
       () => { /* 没有模型就一直用替身，不报错 */ }
     ));
 
+    // 碰撞体：不可见、不跟着浮起。之前直接拿物体本体做拾取，
+    // 一浮起就离开了射线 → 判定丢失 → 落下 → 又被击中，于是一直闪。
+    const hit = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.62, 0.62, 1.5, 12),
+      new THREE.MeshBasicMaterial({ visible: false })
+    );
+    hit.position.set(it.x, 0.55, it.z);
+    hit.userData = { key: it.key };
+    scene.add(hit);
+
     // 每件物体一条弹簧，控制浮起高度 0 → 1
     const spring = new window.Spring({
       from: 0, damping: 0.72, response: 0.42,
@@ -248,7 +271,7 @@ function init() {
       }
     });
 
-    objs.push({ pivot, spring, key: it.key, hot: 0 });
+    objs.push({ pivot, spring, hit, key: it.key });
   });
 
   function loadModels() { pending.forEach(fn => fn()); }
@@ -256,7 +279,7 @@ function init() {
   /* ---------- 拾取 ---------- */
   const ray = new THREE.Raycaster();
   const ptr = new THREE.Vector2(-9, -9);
-  let hover = null, grabbing = false;
+  let hover = null, grabbing = false, miss = 0;
 
   function resize() {
     const w = HOST.clientWidth, h = HOST.clientHeight;
@@ -267,12 +290,48 @@ function init() {
   resize();
   addEventListener('resize', resize, { passive: true });
 
+  /* ---------- 轨道：拖动旋转，松手带惯性 ----------
+     阈值 6px 之内算点击、之外算拖动 —— 不然一点就转，物体点不中。 */
+  const orb = {
+    az: 0, el: 0.62,          // 当前方位角 / 仰角
+    taz: 0, tel: 0.62,        // 目标
+    vaz: 0, vel: 0,           // 松手后的角速度
+    dist: 7.6,
+    down: false, moved: 0, lx: 0, ly: 0, id: null
+  };
+  const EL_MIN = 0.26, EL_MAX = 1.16, AZ_LIM = 0.85;
+  const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
+
   HOST.addEventListener('pointermove', (e) => {
     const r = HOST.getBoundingClientRect();
     ptr.x = ((e.clientX - r.left) / r.width) * 2 - 1;
     ptr.y = -((e.clientY - r.top) / r.height) * 2 + 1;
+
+    if (!orb.down) return;
+    const dx = e.clientX - orb.lx, dy = e.clientY - orb.ly;
+    orb.lx = e.clientX; orb.ly = e.clientY;
+    orb.moved += Math.abs(dx) + Math.abs(dy);
+    orb.taz = clamp(orb.taz - dx * 0.006, -AZ_LIM, AZ_LIM);
+    orb.tel = clamp(orb.tel - dy * 0.005, EL_MIN, EL_MAX);
+    orb.vaz = -dx * 0.006; orb.vel = -dy * 0.005;
   }, { passive: true });
-  HOST.addEventListener('pointerleave', () => { ptr.set(-9, -9); }, { passive: true });
+
+  HOST.addEventListener('pointerdown', (e) => {
+    orb.down = true; orb.moved = 0; orb.lx = e.clientX; orb.ly = e.clientY;
+    orb.vaz = orb.vel = 0;
+    orb.id = e.pointerId;
+    HOST.setPointerCapture(e.pointerId);
+    HOST.classList.add('dragging');
+  });
+  const release = () => {
+    if (!orb.down) return;
+    orb.down = false;
+    HOST.classList.remove('dragging');
+    if (orb.id !== null) { try { HOST.releasePointerCapture(orb.id); } catch (e) {} orb.id = null; }
+  };
+  HOST.addEventListener('pointerup', release);
+  HOST.addEventListener('pointercancel', release);
+  HOST.addEventListener('pointerleave', () => { ptr.set(-9, -9); release(); }, { passive: true });
 
   function setHover(o) {
     if (hover === o) return;
@@ -294,6 +353,7 @@ function init() {
   /* 点击 = 抓取：物体扑向镜头，同时整体压暗，然后跳转 */
   HOST.addEventListener('click', () => {
     if (!hover || grabbing) return;
+    if (orb.moved > 6) return;   // 拖过就不算点击
     grabbing = true;
     const target = hover;
     const from = target.pivot.position.clone();
@@ -320,14 +380,11 @@ function init() {
 
     if (!grabbing) {
       ray.setFromCamera(ptr, camera);
-      const hits = ray.intersectObjects(objs.map(o => o.pivot), true);
-      let found = null;
-      if (hits.length) {
-        let n = hits[0].object;
-        while (n && !n.userData.key) n = n.parent;
-        if (n) found = objs.find(o => o.pivot === n);
-      }
-      setHover(found || null);
+      const hits = ray.intersectObjects(objs.map(o => o.hit), false);
+      const found = hits.length ? objs.find(o => o.hit === hits[0].object) : null;
+      // 迟滞：连续 4 帧都没命中才算真的离开，避免边缘抖动
+      if (found) { miss = 0; setHover(found); }
+      else if (++miss > 4) setHover(null);
     }
 
     objs.forEach((o, i) => {
@@ -337,12 +394,26 @@ function init() {
       if (!CALM && o !== hover) o.pivot.position.y = 0.05 + Math.sin(t * 0.7 + i) * 0.008;
     });
 
-    // 镜头极缓慢地随指针偏移，给一点视差
-    if (!CALM) {
-      camera.position.x += (ptr.x * 0.5 - camera.position.x) * 0.02;
-      camera.position.y += ((4.3 + ptr.y * 0.25) - camera.position.y) * 0.02;
-      camera.lookAt(0, 0.1, 0.25);
+    // 轨道镜头：松手后按角速度继续滑一段再停（惯性），
+    // 同时鼠标位置本身给一点很轻的带动，静止时画面也不死
+    if (!orb.down) {
+      orb.vaz *= 0.94; orb.vel *= 0.94;
+      if (Math.abs(orb.vaz) > 1e-4 || Math.abs(orb.vel) > 1e-4) {
+        orb.taz = clamp(orb.taz + orb.vaz, -AZ_LIM, AZ_LIM);
+        orb.tel = clamp(orb.tel + orb.vel, EL_MIN, EL_MAX);
+      }
     }
+    const followAz = CALM || orb.down ? 0 : ptr.x * 0.09;
+    const followEl = CALM || orb.down ? 0 : -ptr.y * 0.05;
+    orb.az += ((orb.taz + followAz) - orb.az) * 0.08;
+    orb.el += ((orb.tel + followEl) - orb.el) * 0.08;
+
+    camera.position.set(
+      Math.sin(orb.az) * Math.cos(orb.el) * orb.dist,
+      Math.sin(orb.el) * orb.dist,
+      Math.cos(orb.az) * Math.cos(orb.el) * orb.dist
+    );
+    camera.lookAt(0, 0.15, 0);
 
     renderer.render(scene, camera);
   }

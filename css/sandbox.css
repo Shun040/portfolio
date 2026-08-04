@@ -33,6 +33,8 @@
 .sb.ready { opacity: 1; }
 .sb canvas { display: block; width: 100%; height: 100%; }
 /* 抓取瞬间整体压暗，把注意力交给飞向镜头的那件物体 */
+.sb.dragging { cursor: grabbing; }
+.sb { cursor: grab; }
 .sb.grabbing { filter: brightness(.5) saturate(.6); transition: filter .6s var(--ease); }
 
 /* 悬停标签：跟着物体出现在沙盒左上 */

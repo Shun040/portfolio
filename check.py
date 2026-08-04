@@ -118,7 +118,9 @@ for f in sorted(glob.glob('js/*.js')):
     src = open(f, encoding='utf-8').read()
     if re.search(r'^\s*(import|export)\s', src, re.M):
         # ES 模块：new Function 不认 import，剥掉模块语句再查其余部分的语法
-        stripped = re.sub(r'^\s*import[^;]*;\s*$', '', src, flags=re.M)
+        # 注意 [^;\n] 里必须排除换行：[^;] 会跨行，把动态 import() 后面
+        # 那一行也一起吃掉，剥出来的代码括号就不配对了（曾经误报过一次）
+        stripped = re.sub(r'^[ \t]*import[^;\n]*;[ \t]*$', '', src, flags=re.M)
         stripped = re.sub(r'^\s*export\s+', '', stripped, flags=re.M)
         tmp = os.path.join(os.path.dirname(os.path.abspath(f)), '.__check_tmp.js')
         open(tmp, 'w', encoding='utf-8').write(stripped)
