@@ -22,83 +22,189 @@ const HOST = document.getElementById('sandbox');
 const LABEL = document.getElementById('sb-label');
 const CALM = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* 六件物体：位置、替身几何、对应项目 */
+/* 六件物件 —— 沙盘游戏里的微缩物件本来就是简化剪影，不是写实模型 */
 const ITEMS = [
-  { key: 'tears',        x: -2.05, z: -0.55, build: handset },
-  { key: 'exstasis',     x: -0.70, z:  0.62, build: petriDish },
-  { key: 'painshift',    x:  0.65, z: -0.72, build: headset },
-  { key: 'reground',     x:  2.00, z:  0.50, build: bird },
-  { key: 'empalens',     x: -1.95, z:  1.62, build: glasses },
-  { key: 'through-eyes', x:  1.20, z:  1.70, build: pinhole }
+  { key: 'tears',        x: -2.10, z: -0.50, build: telephone },  // 固定电话
+  { key: 'exstasis',     x: -0.60, z:  0.70, build: buddha    },  // 佛像
+  { key: 'painshift',    x:  0.85, z: -0.80, build: tulip     },  // 一朵花
+  { key: 'reground',     x:  2.10, z:  0.55, build: bird      },  // 小鸟
+  { key: 'empalens',     x: -1.90, z:  1.70, build: twoFigures},  // 两个人背对背
+  { key: 'through-eyes', x:  1.30, z:  1.75, build: cctv      }   // 监控
 ];
 
-/* ---------- 材质：奶油白，一个红 ---------- */
-const CREAM = 0xECE7D4;
+/* ---------- 材质 ---------- */
+const CREAM = 0xE6DFC9;
 const RED   = 0xC5283D;
+const BRASS = 0xB08D57;
 const mat = (c = CREAM, rough = 0.62, metal = 0.04) =>
   new THREE.MeshStandardMaterial({ color: c, roughness: rough, metalness: metal });
 
-/* ---------- 六个替身：用基本几何体拼出可辨认的轮廓 ---------- */
-function handset() {                    // 壁挂电话的听筒
+/* ================== 六件物件 ================== */
+
+function telephone() {                  // 固定电话（座机）
   const g = new THREE.Group();
-  const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.13, 0.62, 4, 12), mat());
-  body.rotation.z = Math.PI / 2;
-  const ear = new THREE.Mesh(new THREE.CylinderGeometry(0.19, 0.19, 0.12, 20), mat(CREAM, 0.5));
-  ear.position.set(-0.42, 0.04, 0);
-  const mouth = ear.clone(); mouth.position.x = 0.42;
-  g.add(body, ear, mouth);
+  const base = new THREE.Mesh(new THREE.BoxGeometry(0.62, 0.16, 0.46), mat(0x2B2F38, 0.62));
+  base.position.y = 0.08;
+  // 机身前低后高，像老式座机
+  base.rotation.x = -0.09;
+  const dial = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.13, 0.02, 24), mat(0xD8D2BE, 0.5));
+  dial.position.set(0, 0.17, 0.06);
+  // 听筒横搁在机身上
+  const handle = new THREE.Group();
+  const bar = new THREE.Mesh(new THREE.BoxGeometry(0.46, 0.07, 0.09), mat(0x2B2F38, 0.5));
+  const capA = new THREE.Mesh(new THREE.CylinderGeometry(0.085, 0.095, 0.1, 18), mat(0x2B2F38, 0.5));
+  capA.position.set(-0.25, -0.02, 0);
+  const capB = capA.clone(); capB.position.x = 0.25;
+  handle.add(bar, capA, capB);
+  handle.position.y = 0.24;
+  // 螺旋线
+  const cordPts = [];
+  for (let i = 0; i <= 90; i++) {
+    const t = i / 90;
+    cordPts.push(new THREE.Vector3(
+      -0.3 + t * 0.12 + Math.sin(t * 34) * 0.045,
+      0.2 - t * 0.16,
+      -0.22 + Math.cos(t * 34) * 0.045
+    ));
+  }
+  const cord = new THREE.Mesh(
+    new THREE.TubeGeometry(new THREE.CatmullRomCurve3(cordPts), 90, 0.014, 6, false),
+    mat(0x2B2F38, 0.7)
+  );
+  g.add(base, dial, handle, cord);
   return g;
 }
-function petriDish() {                  // 培养皿
+
+function buddha() {                     // 佛像（结跏趺坐）
   const g = new THREE.Group();
-  const dish = new THREE.Mesh(new THREE.CylinderGeometry(0.46, 0.46, 0.13, 40),
-    new THREE.MeshPhysicalMaterial({ color: 0xE8E4D2, roughness: 0.12, transmission: 0.55, thickness: 0.4, transparent: true, opacity: 0.9 }));
-  const colony = new THREE.Mesh(new THREE.IcosahedronGeometry(0.17, 1), mat(RED, 0.85));
-  colony.position.y = 0.07;
-  colony.scale.set(1, 0.42, 1);
-  g.add(dish, colony);
+  const m = mat(BRASS, 0.42, 0.62);
+  // 莲座
+  const lotus = new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.28, 0.1, 24), m);
+  lotus.position.y = 0.05;
+  const petals = new THREE.Mesh(new THREE.TorusGeometry(0.3, 0.055, 8, 24), m);
+  petals.rotation.x = Math.PI / 2; petals.position.y = 0.1;
+  // 盘起的腿
+  const legs = new THREE.Mesh(new THREE.SphereGeometry(0.28, 20, 14), m);
+  legs.scale.set(1, 0.42, 0.86); legs.position.y = 0.2;
+  // 身躯：上窄下宽
+  const torso = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.22, 0.34, 20), m);
+  torso.position.y = 0.4;
+  // 双手结印
+  const hands = new THREE.Mesh(new THREE.SphereGeometry(0.11, 16, 12), m);
+  hands.scale.set(1, 0.5, 0.7); hands.position.set(0, 0.29, 0.15);
+  // 头与肉髻
+  const head = new THREE.Mesh(new THREE.SphereGeometry(0.13, 22, 16), m);
+  head.position.y = 0.64;
+  const ushnisha = new THREE.Mesh(new THREE.SphereGeometry(0.07, 16, 12), m);
+  ushnisha.position.y = 0.74;
+  // 背光
+  const halo = new THREE.Mesh(new THREE.TorusGeometry(0.2, 0.016, 8, 32), mat(BRASS, 0.3, 0.8));
+  halo.position.set(0, 0.64, -0.1);
+  g.add(lotus, petals, legs, torso, hands, head, ushnisha, halo);
   return g;
 }
-function headset() {                    // VR 头显
+
+function tulip() {                      // 一朵花（郁金香 —— PainShift 的曼陀罗就是它做的）
   const g = new THREE.Group();
-  const box = new THREE.Mesh(new THREE.BoxGeometry(0.78, 0.42, 0.42), mat(CREAM, 0.55));
-  const lens = new THREE.Mesh(new THREE.TorusGeometry(0.13, 0.035, 10, 24), mat(RED, 0.5));
-  lens.position.set(-0.18, 0, 0.22);
-  const lens2 = lens.clone(); lens2.position.x = 0.18;
-  const strap = new THREE.Mesh(new THREE.TorusGeometry(0.34, 0.035, 8, 28, Math.PI), mat(CREAM, 0.8));
-  strap.rotation.y = Math.PI / 2; strap.position.z = -0.18;
-  g.add(box, lens, lens2, strap);
+  const green = mat(0x5F7A4A, 0.85);
+  // 花杯：用车削面做出郁金香的收口轮廓
+  const prof = [];
+  for (let i = 0; i <= 16; i++) {
+    const t = i / 16;
+    const r = 0.055 + Math.sin(t * Math.PI * 0.92) * 0.17 * (1 - t * 0.24);
+    prof.push(new THREE.Vector2(r, t * 0.34));
+  }
+  const cup = new THREE.Mesh(new THREE.LatheGeometry(prof, 28),
+    new THREE.MeshStandardMaterial({ color: 0xD8CBE0, roughness: 0.68, side: THREE.DoubleSide }));
+  cup.position.y = 0.5;
+  // 花瓣的尖：三片微微外翻
+  for (let i = 0; i < 3; i++) {
+    const petal = new THREE.Mesh(new THREE.ConeGeometry(0.075, 0.16, 10),
+      new THREE.MeshStandardMaterial({ color: 0xCBBBD8, roughness: 0.68, side: THREE.DoubleSide }));
+    const a = (i / 3) * Math.PI * 2;
+    petal.position.set(Math.cos(a) * 0.11, 0.86, Math.sin(a) * 0.11);
+    petal.rotation.set(0.34 * Math.cos(a + 1.6), 0, -0.34 * Math.sin(a + 1.6));
+    g.add(petal);
+  }
+  // 茎
+  const stemPts = [
+    new THREE.Vector3(0.03, 0, 0.02), new THREE.Vector3(-0.02, 0.2, 0),
+    new THREE.Vector3(0.02, 0.38, -0.01), new THREE.Vector3(0, 0.52, 0)
+  ];
+  const stem = new THREE.Mesh(
+    new THREE.TubeGeometry(new THREE.CatmullRomCurve3(stemPts), 24, 0.02, 6, false), green);
+  // 两片长叶
+  for (let i = 0; i < 2; i++) {
+    const leaf = new THREE.Mesh(new THREE.SphereGeometry(0.14, 12, 8), green);
+    leaf.scale.set(0.2, 1.5, 0.6);
+    leaf.position.set(i ? 0.1 : -0.1, 0.22, i ? -0.05 : 0.05);
+    leaf.rotation.z = i ? -0.42 : 0.42;
+    g.add(leaf);
+  }
+  g.add(cup, stem);
   return g;
 }
-function bird() {                       // 陪伴机器人（毛绒小鸟）
+
+function bird() {                       // 小鸟（陪伴机器人）
   const g = new THREE.Group();
-  const body = new THREE.Mesh(new THREE.SphereGeometry(0.34, 28, 20), mat(CREAM, 0.95));
-  body.scale.set(1, 0.92, 0.88);
-  const head = new THREE.Mesh(new THREE.SphereGeometry(0.21, 24, 18), mat(CREAM, 0.95));
-  head.position.set(0, 0.34, 0.05);
-  const beak = new THREE.Mesh(new THREE.ConeGeometry(0.07, 0.16, 12), mat(RED, 0.6));
-  beak.position.set(0, 0.32, 0.24); beak.rotation.x = Math.PI / 2;
-  g.add(body, head, beak);
+  const body = new THREE.Mesh(new THREE.SphereGeometry(0.3, 28, 20), mat(0xEFE7D4, 0.95));
+  body.scale.set(1, 0.94, 0.9); body.position.y = 0.3;
+  const head = new THREE.Mesh(new THREE.SphereGeometry(0.185, 24, 18), mat(0xEFE7D4, 0.95));
+  head.position.set(0, 0.58, 0.04);
+  const beak = new THREE.Mesh(new THREE.ConeGeometry(0.055, 0.13, 12), mat(0xE0A23A, 0.55));
+  beak.position.set(0, 0.56, 0.2); beak.rotation.x = Math.PI / 2;
+  const eyeL = new THREE.Mesh(new THREE.SphereGeometry(0.026, 12, 10), mat(0x1A1A1E, 0.3));
+  eyeL.position.set(-0.07, 0.62, 0.155);
+  const eyeR = eyeL.clone(); eyeR.position.x = 0.07;
+  const tail = new THREE.Mesh(new THREE.ConeGeometry(0.09, 0.22, 10), mat(0xEFE7D4, 0.95));
+  tail.position.set(0, 0.32, -0.26); tail.rotation.x = -1.15;
+  const feet = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.13, 0.05, 16), mat(0xE0A23A, 0.6));
+  feet.position.y = 0.025;
+  g.add(body, head, beak, eyeL, eyeR, tail, feet);
   return g;
 }
-function glasses() {                    // 智能眼镜
+
+function twoFigures() {                 // 两个人背对背（EmpaLens：伴侣）
   const g = new THREE.Group();
-  const l = new THREE.Mesh(new THREE.TorusGeometry(0.2, 0.028, 10, 28), mat(CREAM, 0.35, 0.5));
-  l.position.x = -0.24;
-  const r = l.clone(); r.position.x = 0.24;
-  const bridge = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.026, 0.026), mat(CREAM, 0.35, 0.5));
-  const badge = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.03, 24), mat(RED, 0.4));
-  badge.position.set(0, -0.02, 0.3); badge.rotation.x = Math.PI / 2;
-  g.add(l, r, bridge, badge);
+  const person = (c, flip) => {
+    const p = new THREE.Group();
+    const base = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.15, 0.05, 18), mat(c, 0.8));
+    base.position.y = 0.025;
+    const body = new THREE.Mesh(new THREE.CylinderGeometry(0.085, 0.145, 0.4, 20), mat(c, 0.78));
+    body.position.y = 0.25;
+    const shoulder = new THREE.Mesh(new THREE.SphereGeometry(0.095, 16, 12), mat(c, 0.78));
+    shoulder.scale.set(1.5, 0.6, 0.8); shoulder.position.y = 0.45;
+    const head = new THREE.Mesh(new THREE.SphereGeometry(0.088, 20, 14), mat(c, 0.72));
+    head.position.y = 0.56;
+    p.add(base, body, shoulder, head);
+    p.position.z = flip ? -0.12 : 0.12;
+    p.rotation.y = flip ? Math.PI : 0;
+    return p;
+  };
+  g.add(person(0xE6DFC9, false), person(0x8FA0BF, true));
   return g;
 }
-function pinhole() {                    // 针孔摄像头
+
+function cctv() {                       // 监控摄像头
   const g = new THREE.Group();
-  const body = new THREE.Mesh(new THREE.CylinderGeometry(0.17, 0.17, 0.36, 26), mat(CREAM, 0.42, 0.35));
-  body.rotation.z = Math.PI / 2;
-  const lens = new THREE.Mesh(new THREE.SphereGeometry(0.075, 18, 14), mat(RED, 0.15, 0.2));
-  lens.position.x = 0.19;
-  g.add(body, lens);
+  const dark = mat(0x30343D, 0.5, 0.25);
+  const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.045, 0.66, 14), dark);
+  pole.position.y = 0.33;
+  const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.028, 0.028, 0.3, 12), dark);
+  arm.rotation.z = Math.PI / 2; arm.position.set(0.14, 0.64, 0);
+  const body = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.34, 20), mat(0xD9D3C2, 0.45, 0.2));
+  body.rotation.z = Math.PI / 2; body.position.set(0.42, 0.6, 0);
+  body.rotation.y = 0.22;
+  const hood = new THREE.Mesh(new THREE.CylinderGeometry(0.105, 0.105, 0.14, 20, 1, true), dark);
+  hood.rotation.z = Math.PI / 2; hood.position.set(0.55, 0.61, 0);
+  const lens = new THREE.Mesh(new THREE.SphereGeometry(0.062, 20, 14), mat(0x14161C, 0.08, 0.85));
+  lens.position.set(0.6, 0.6, 0);
+  const led = new THREE.Mesh(new THREE.SphereGeometry(0.016, 10, 8),
+    new THREE.MeshStandardMaterial({ color: RED, emissive: RED, emissiveIntensity: 2.2, roughness: .4 }));
+  led.position.set(0.56, 0.68, 0.05);
+  const foot = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.16, 0.04, 18), dark);
+  foot.position.y = 0.02;
+  g.add(foot, pole, arm, body, hood, lens, led);
   return g;
 }
 
@@ -165,29 +271,95 @@ function init() {
   box.add(rim(WALL, D, -W / 2 - WALL / 2, 0));
   box.add(rim(WALL, D,  W / 2 + WALL / 2, 0));
 
-  // 沙面：把平面的顶点按噪声推高推低，形成沙丘与浅坑
-  const sandGeo = new THREE.PlaneGeometry(W - 0.06, D - 0.06, 96, 76);
-  const pos = sandGeo.attributes.position;
-  const h2 = (x, y) => {                       // 廉价的值噪声
-    const n = Math.sin(x * 1.7) * Math.cos(y * 2.1) +
-              Math.sin(x * 3.9 + 1.3) * Math.cos(y * 4.4 - 0.7) * 0.45 +
-              Math.sin(x * 8.2 - 2.1) * Math.cos(y * 7.6 + 1.1) * 0.16;
-    return n;
+  /* ---------- 沙 ----------
+     两层：
+       1) 压实的沙床（网格）—— 起伏比之前大三倍，有沙丘也有浅坑
+       2) 表层沙粒（4.5 万个 Points）—— 旋转时会被带着流动，慢慢再落定
+     只做网格的话沙面永远是"塑料布"；只做粒子的话又会透光。两层叠起来才像沙。 */
+  const SW = W - 0.06, SD = D - 0.06;
+
+  // 沙的高度场：低频沙丘 + 中频波纹 + 高频颗粒起伏
+  const sandH = (x, z) => {
+    const dune = Math.sin(x * 0.9 + 0.4) * Math.cos(z * 1.15) * 0.075
+               + Math.sin(x * 1.9 - 1.1) * Math.cos(z * 0.7 + 0.6) * 0.045;
+    const ripple = Math.sin(x * 5.4 + z * 2.2) * 0.012
+                 + Math.sin(z * 6.8 - x * 1.7) * 0.009;
+    const grain = Math.sin(x * 19.3 + z * 14.1) * 0.004;
+    // 靠近木框沙变薄，露出下面的蓝
+    const edge = Math.min(1, Math.min((SW / 2 - Math.abs(x)) / 0.75, (SD / 2 - Math.abs(z)) / 0.75));
+    return (dune + ripple + grain + 0.055) * Math.max(0, edge);
   };
+
+  const sandGeo = new THREE.PlaneGeometry(SW, SD, 150, 118);
+  const pos = sandGeo.attributes.position;
   for (let i = 0; i < pos.count; i++) {
-    const x = pos.getX(i), y = pos.getY(i);
-    // 靠近边框的地方沙更薄，露出一点蓝
-    const edge = Math.min(1, Math.min((W / 2 - Math.abs(x)) / 0.7, (D / 2 - Math.abs(y)) / 0.7));
-    pos.setZ(i, h2(x, y) * 0.035 * edge + 0.02 * edge);
+    pos.setZ(i, sandH(pos.getX(i), pos.getY(i)));
   }
   sandGeo.computeVertexNormals();
   const sand = new THREE.Mesh(sandGeo, new THREE.MeshStandardMaterial({
-    color: 0xC4B79B, roughness: 1, metalness: 0
+    color: 0xB8AA8B, roughness: 1, metalness: 0, flatShading: false
   }));
   sand.rotation.x = -Math.PI / 2;
-  sand.position.y = 0.03;
+  sand.position.y = 0.02;
   sand.receiveShadow = true;
   box.add(sand);
+
+  // ---- 表层沙粒 ----
+  const GRAINS = 45000;
+  const gPos  = new Float32Array(GRAINS * 3);
+  const gBase = new Float32Array(GRAINS * 3);   // 原位，用来回落
+  const gOff  = new Float32Array(GRAINS * 3);   // 当前偏移
+  const gDir  = new Float32Array(GRAINS * 2);   // 每粒自己的漂移方向
+  const gCol  = new Float32Array(GRAINS * 3);
+
+  for (let i = 0; i < GRAINS; i++) {
+    const x = (Math.random() - 0.5) * SW;
+    const z = (Math.random() - 0.5) * SD;
+    const y = sandH(x, z) + 0.02 + Math.random() * 0.012;
+    gBase[i * 3] = gPos[i * 3] = x;
+    gBase[i * 3 + 1] = gPos[i * 3 + 1] = y;
+    gBase[i * 3 + 2] = gPos[i * 3 + 2] = z;
+    const a = Math.random() * Math.PI * 2;
+    gDir[i * 2] = Math.cos(a); gDir[i * 2 + 1] = Math.sin(a);
+    // 颜色轻微random，纯单色的粒子看起来像噪点而不像沙
+    const t = 0.82 + Math.random() * 0.26;
+    gCol[i * 3] = 0.79 * t; gCol[i * 3 + 1] = 0.72 * t; gCol[i * 3 + 2] = 0.57 * t;
+  }
+
+  const grainGeo = new THREE.BufferGeometry();
+  grainGeo.setAttribute('position', new THREE.BufferAttribute(gPos, 3));
+  grainGeo.setAttribute('color', new THREE.BufferAttribute(gCol, 3));
+  const grains = new THREE.Points(grainGeo, new THREE.PointsMaterial({
+    size: 0.016, vertexColors: true, sizeAttenuation: true,
+    transparent: true, opacity: 0.95, depthWrite: false
+  }));
+  box.add(grains);
+
+  // 每帧被主循环调用：旋转越快，沙被带得越多，然后慢慢落回原位
+  let lastAz = 0;
+  const stirSand = (az, dt) => {
+    const spin = Math.min(0.06, Math.abs(az - lastAz));
+    lastAz = az;
+    if (spin < 0.0004 && !stirSand.settling) return;
+    stirSand.settling = false;
+    let moving = false;
+    for (let i = 0; i < GRAINS; i++) {
+      const i3 = i * 3, i2 = i * 2;
+      if (spin > 0.0004) {
+        const k = spin * 1.7;
+        gOff[i3]     += gDir[i2]     * k;
+        gOff[i3 + 1] += Math.random() * k * 0.32;
+        gOff[i3 + 2] += gDir[i2 + 1] * k;
+      }
+      gOff[i3] *= 0.90; gOff[i3 + 1] *= 0.86; gOff[i3 + 2] *= 0.90;
+      if (Math.abs(gOff[i3]) > 0.0004 || Math.abs(gOff[i3 + 2]) > 0.0004) moving = true;
+      gPos[i3]     = gBase[i3]     + gOff[i3];
+      gPos[i3 + 1] = gBase[i3 + 1] + gOff[i3 + 1];
+      gPos[i3 + 2] = gBase[i3 + 2] + gOff[i3 + 2];
+    }
+    stirSand.settling = moving;
+    grainGeo.attributes.position.needsUpdate = true;
+  };
 
   scene.add(box);
 
@@ -414,6 +586,8 @@ function init() {
       Math.cos(orb.az) * Math.cos(orb.el) * orb.dist
     );
     camera.lookAt(0, 0.15, 0);
+
+    stirSand(orb.az);
 
     renderer.render(scene, camera);
   }
