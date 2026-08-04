@@ -57,11 +57,17 @@
       var p = window.PROJECTS[i], d = P(p);
       rows +=
         '<a class="row-work" href="#' + p.key + '" data-case="' + p.key + '">' +
-          '<span class="no">' + p.id + '</span>' +
-          '<span class="nm">' + esc(d.name) +
-            '<span class="sub">' + esc(d.tag) + '</span></span>' +
-          '<span class="ty">' + esc(d.type) + '</span>' +
-          '<span class="yr">' + esc(d.year) + '</span>' +
+          '<span class="line1">' +
+            '<span class="no">' + p.id + '</span>' +
+            '<span class="dot">·</span>' +
+            '<span>' + esc(d.type) + '</span>' +
+            '<span class="dot">·</span>' +
+            '<span>' + esc(d.year) + '</span>' +
+          '</span>' +
+          '<span class="nm">' + esc(d.name) + '</span>' +
+          '<span class="q quote">' + d.thesis + '</span>' +
+          '<span class="sub">' + esc(d.tag) + '</span>' +
+          '<span class="go">' + esc(T('arc.open')) + ' →</span>' +
         '</a>';
       plate +=
         '<a class="ph" href="#' + p.key + '" data-case="' + p.key + '" ' +
@@ -72,14 +78,7 @@
     }
 
     host.innerHTML =
-      '<div class="wtable">' +
-        '<div class="wthead">' +
-          '<span>' + esc(T('arc.thNo')) + '</span>' +
-          '<span>' + esc(T('arc.thTitle')) + '</span>' +
-          '<span>' + esc(T('arc.thType')) + '</span>' +
-          '<span style="text-align:right">' + esc(T('arc.thYear')) + '</span>' +
-        '</div>' + rows +
-      '</div>' +
+      '<div class="wtable">' + rows + '</div>' +
       '<p class="mono" style="margin-top:var(--s7);margin-bottom:var(--s3)">' +
         esc(T('arc.plate')) + '</p>' +
       '<div class="plate">' + plate + '</div>';
@@ -275,8 +274,9 @@
            '</div>' +
            '<h2>' + esc(d.name) + '</h2>' +
          '</div>' +
-         '<figure><div class="ph"><img src="' + p.img + '" alt="' + esc(d.name) + '" ' +
-           'style="width:100%"></div></figure>';
+         '<figure class="ph" style="aspect-ratio:16/9;margin-bottom:var(--lg)">' +
+           '<img src="' + p.img + '" alt="' + esc(d.name) + '" ' +
+           'style="width:100%;height:100%;object-fit:cover"></figure>';
 
     /* --- 论点 + 参数 --- */
     h += '<p class="case-thesis">' + d.thesis + '</p>';
