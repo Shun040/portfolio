@@ -115,8 +115,19 @@ var s = $.NSString.stringWithContentsOfFileEncodingError('%s', $.NSUTF8StringEnc
 try { new Function(s); 'OK' } catch (e) { 'ERR ' + e.message }
 """
 for f in sorted(glob.glob('js/*.js')):
-    r = subprocess.run(['osascript', '-l', 'JavaScript', '-e', JS_CHECK % os.path.abspath(f)],
-                       capture_output=True, text=True)
+    src = open(f, encoding='utf-8').read()
+    if re.search(r'^\s*(import|export)\s', src, re.M):
+        # ES 模块：new Function 不认 import，剥掉模块语句再查其余部分的语法
+        stripped = re.sub(r'^\s*import[^;]*;\s*$', '', src, flags=re.M)
+        stripped = re.sub(r'^\s*export\s+', '', stripped, flags=re.M)
+        tmp = os.path.join(os.path.dirname(os.path.abspath(f)), '.__check_tmp.js')
+        open(tmp, 'w', encoding='utf-8').write(stripped)
+        r = subprocess.run(['osascript', '-l', 'JavaScript', '-e', JS_CHECK % tmp],
+                           capture_output=True, text=True)
+        os.remove(tmp)
+    else:
+        r = subprocess.run(['osascript', '-l', 'JavaScript', '-e', JS_CHECK % os.path.abspath(f)],
+                           capture_output=True, text=True)
     out = r.stdout.strip()
     if out == 'OK':
         ok(f)
@@ -142,7 +153,8 @@ for f in glob.glob('*.html') + glob.glob('js/*.js'):
     refs |= set(re.findall(r"'(assets/[^']+)'", t))
 # 模板拼接出来的 src（如 "' + p.img + '"）不是真实路径，实际路径由上面的
 # 'assets/...' 字面量那一条抓到
-refs = {r for r in refs if "'" not in r and '+' not in r}
+refs = {r.split('#')[0] for r in refs if "'" not in r and '+' not in r}
+refs = {r for r in refs if r and not r.endswith('/')}
 
 lost = sorted(r for r in refs if not os.path.exists(r.split('?')[0]))
 # portrait.jpg 是有意缺失的占位，不算错

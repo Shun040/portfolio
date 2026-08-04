@@ -156,6 +156,7 @@ window.I18N = {
   /* ============ 档案外壳 ============ */
   arc: {
     en: {
+      'sb.hint': 'Hover an object · click to open',
       'arc.docno': 'File no.',
       'arc.issued': 'Issued',
       'arc.pages': 'Page',
@@ -175,6 +176,7 @@ window.I18N = {
       'arc.end': 'End of file'
     },
     zh: {
+      'sb.hint': '把鼠标移到物件上 · 点击进入',
       'arc.docno': '档案编号',
       'arc.issued': '建档日期',
       'arc.pages': '页',

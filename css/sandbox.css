@@ -1,0 +1,99 @@
+/* ==================================================================
+   sandbox.css — 首页沙盒
+   ------------------------------------------------------------------
+   沙盒是全屏的，标题压在它上方，底部是文字入口。
+   文字入口不是「降级方案」—— 它一直在，键盘和读屏用户走的是同一条路。
+   ================================================================== */
+
+.home { min-height: 100svh; display: flex; flex-direction: column; }
+
+/* ---------- 标题 ---------- */
+.sb-head {
+  padding-top: clamp(2.5rem, 8vh, 5rem);
+  padding-bottom: var(--md);
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
+}
+.sb-head .cover-name { margin-bottom: var(--sm); }
+.sb-state {
+  max-width: var(--measure-narrow);
+  color: var(--fg-dim);
+  font-size: clamp(.95rem, 1.2vw, 1.15rem);
+  line-height: 1.5;
+}
+
+/* ---------- 沙盒画布 ---------- */
+.sb-wrap { position: relative; flex: 1; min-height: 46vh; }
+.sb {
+  position: absolute; inset: 0;
+  opacity: 0;
+  transition: opacity var(--t-slow) var(--ease);
+}
+.sb.ready { opacity: 1; }
+.sb canvas { display: block; width: 100%; height: 100%; }
+/* 抓取瞬间整体压暗，把注意力交给飞向镜头的那件物体 */
+.sb.grabbing { filter: brightness(.5) saturate(.6); transition: filter .6s var(--ease); }
+
+/* 悬停标签：跟着物体出现在沙盒左上 */
+.sb-label {
+  position: absolute;
+  left: var(--gutter); top: var(--md);
+  z-index: 3;
+  display: grid; gap: 4px;
+  opacity: 0; transform: translateY(6px);
+  transition: opacity var(--t-base) var(--ease), transform var(--t-base) var(--ease);
+  pointer-events: none;
+}
+.sb-label.on { opacity: 1; transform: none; }
+.sb-label .no { font-family: var(--mono); font-size: var(--t-meta); letter-spacing: .16em; color: var(--red); }
+.sb-label .nm { font-size: clamp(1.3rem, 2.6vw, 2rem); font-weight: 500; letter-spacing: -.028em; line-height: 1.1; }
+.sb-label .ty { font-family: var(--mono); font-size: var(--t-meta); letter-spacing: .12em;
+  text-transform: uppercase; color: var(--fg-faint); }
+
+.sb-hint {
+  position: absolute;
+  left: var(--gutter); bottom: var(--md);
+  z-index: 3;
+  color: var(--fg-faint);
+  pointer-events: none;
+}
+.sb.nogl ~ .sb-hint, .sb.nogl ~ .sb-label { display: none; }
+
+@media (max-width: 760px) {
+  .sb-wrap { min-height: 42vh; }
+  .sb-label { left: var(--gutter); top: var(--sm); }
+}
+
+/* ---------- 文字入口 ---------- */
+.sb-list {
+  position: relative; z-index: 2;
+  padding-top: var(--md);
+  padding-bottom: var(--lg);
+  border-top: 1px solid var(--rule);
+}
+.sb-list ul { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px var(--md); }
+.sb-list a {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: var(--xs);
+  align-items: baseline;
+  padding: var(--xs) 0;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--t-fast) var(--ease);
+}
+.sb-list a:hover { border-bottom-color: var(--rule-2); }
+.sb-list .no { font-family: var(--mono); font-size: var(--t-meta); color: var(--red); }
+.sb-list .nm { font-size: var(--t-small); font-weight: 500; }
+.sb-list .ty { grid-column: 2; display: block; margin-top: 2px; color: var(--fg-faint); }
+@media (max-width: 900px) { .sb-list ul { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .sb-list ul { grid-template-columns: 1fr; } }
+
+/* 没有 WebGL 时，文字入口顶上来当主角 */
+.sb.nogl { display: none; }
+.sb.nogl ~ * { position: static; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sb { transition: none; }
+  .sb-label { transition: none; }
+}
