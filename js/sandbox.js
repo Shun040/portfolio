@@ -208,6 +208,73 @@ function cctv() {                       // 监控摄像头
   return g;
 }
 
+/* ------------------------------------------------------------------
+   点云化
+   ------------------------------------------------------------------
+   在网格表面均匀采样，把物件变成和沙同源的颗粒。
+   概念上这才对：沙盘里的东西本来就是沙做的 —— 你抓起它，它散开。
+
+   采样是按三角形面积加权的，所以大面和小面的疏密一致，
+   不会出现「细节处一团、平面上空荡」。
+   ------------------------------------------------------------------ */
+let Sampler = null;
+const samplerReady = import('../assets/vendor/MeshSurfaceSampler.js')
+  .then(m => { Sampler = m.MeshSurfaceSampler; })
+  .catch(e => console.warn('[sandbox] 采样器未加载，物件保持实体', e));
+
+function pointify(root, count = 9000) {
+  if (!Sampler) return null;
+
+  // 收集所有网格，连同各自的世界变换
+  const metas = [];
+  root.updateMatrixWorld(true);
+  root.traverse(o => {
+    if (o.isMesh && o.geometry && o.geometry.attributes.position) {
+      metas.push({ mesh: o, area: o.geometry.attributes.position.count });
+    }
+  });
+  if (!metas.length) return null;
+
+  const total = metas.reduce((a, m) => a + m.area, 0);
+  const pos = [], col = [];
+  const tmp = new THREE.Vector3(), nrm = new THREE.Vector3();
+  const c = new THREE.Color();
+
+  metas.forEach(meta => {
+    const n = Math.max(120, Math.round(count * meta.area / total));
+    let sampler;
+    try {
+      sampler = new Sampler(meta.mesh).build();
+    } catch (e) { return; }
+
+    const base = meta.mesh.material && meta.mesh.material.color
+      ? meta.mesh.material.color : new THREE.Color(0xE6DFC9);
+
+    for (let i = 0; i < n; i++) {
+      sampler.sample(tmp, nrm);
+      tmp.applyMatrix4(meta.mesh.matrixWorld);
+      // 沿法线抖一点，点云才有厚度，不是一层壳
+      tmp.addScaledVector(nrm, (Math.random() - 0.5) * 0.012);
+      pos.push(tmp.x, tmp.y, tmp.z);
+      // 明暗随机，纯单色的点云会糊成一团
+      const t = 0.72 + Math.random() * 0.5;
+      c.copy(base).multiplyScalar(t);
+      col.push(c.r, c.g, c.b);
+    }
+  });
+
+  if (!pos.length) return null;
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+  const p = new THREE.Points(g, new THREE.PointsMaterial({
+    size: 0.019, vertexColors: true, sizeAttenuation: true,
+    transparent: true, opacity: 0.96, depthWrite: false
+  }));
+  p.userData.isCloud = true;
+  return p;
+}
+
 /* ================================================================== */
 function init() {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -396,15 +463,23 @@ function init() {
     pivot.rotation.y = pivot.userData.baseRot;
     scene.add(pivot);
 
+    let current = null;
     const place = (node) => {
+      if (current) pivot.remove(current);
       node.traverse(o => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
       pivot.add(node);
+      current = node;
     };
 
-    // 先放替身，模型加载成功再换掉 —— 页面不会有空窗
+    // 先放实体替身，页面不会有空窗
     const stand = it.build();
-    stand.position.y = 0.34;
     place(stand);
+
+    // 采样器就绪后换成点云；模型来了会再换一次
+    samplerReady.then(() => {
+      const cloud = pointify(stand, 9000);
+      if (cloud) place(cloud);
+    });
 
     pending.push(() => loader.load(
       'assets/models/' + it.key + '.glb',
@@ -417,8 +492,10 @@ function init() {
         m.scale.setScalar(s);
         const bb2 = new THREE.Box3().setFromObject(m);
         m.position.y -= bb2.min.y;
-        pivot.remove(stand);
-        place(m);
+        samplerReady.then(() => {
+          const cloud = pointify(m, 14000);   // 真模型细节多，采样点也给多一些
+          place(cloud || m);
+        });
       },
       undefined,
       () => { /* 没有模型就一直用替身，不报错 */ }
